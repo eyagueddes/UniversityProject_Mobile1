@@ -7,6 +7,7 @@ class DioHelper {
     dio = Dio(
       BaseOptions(
           // baseUrl: 'http://192.168.130.133:5000/',
+           baseUrl: 'http://192.168.1.18:5000/',
           receiveDataWhenStatusError: true,
           connectTimeout: 30000),
     );

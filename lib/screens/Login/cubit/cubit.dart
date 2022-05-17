@@ -44,11 +44,12 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginLoadingState());
     debugPrint('0');
     try{
-      Response response  = await DioHelper.getData(url:'https://world.openfoodfacts.org/api/v0/product/737628064502.json');
-      debugPrint(response.data);
+      Response response  = await DioHelper.getData(url:'api/student/all');
+      log(response.data.map((e){
+       return e.toString() ;
+      }));
       debugPrint('000');
-        
-        
+      emit(LoginSuccessState());
     }catch(e){
       debugPrint(e.toString());
     }
