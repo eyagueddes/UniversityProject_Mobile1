@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: defaultButton(
                           onPressed: () async {
                             if (formGlobalKey.currentState!.validate()) {
-                              debugPrint(connexionController.text);
+                              log(connexionController.text);
                               debugPrint(passwordController.text);
                                cubit.userLogin(
                                 login: connexionController.text,
