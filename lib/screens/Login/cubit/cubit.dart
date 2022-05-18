@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,13 +43,18 @@ class LoginCubit extends Cubit<LoginStates> {
    Future <void> userLogin({ required String login,required String password}) async{
      debugPrint("here");
     emit(LoginLoadingState());
-     debugPrint('0');
+     log( ' 000');
     try{
-      Response response  = await DioHelper.getData(url:'api/student/all');
-      debugPrint(response.data.map((e){
-       return e.toString() ;
-      }));
-      debugPrint('000');
+      Response response  = await DioHelper.postData(url:'api/authStudent',data: {
+        'login': login,
+        'password': password
+      });
+      // debugPrint(response.data.map((e){
+      //  return e.toString() ;
+      // }));
+
+      print(  response.data['token']);
+
       emit(LoginSuccessState());
     }catch(e){
       debugPrint(e.toString());
