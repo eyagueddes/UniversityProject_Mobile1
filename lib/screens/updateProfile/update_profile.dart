@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../components/search_bar.dart';
 class update_profile extends StatefulWidget {
   const update_profile({Key? key}) : super(key: key);
 
@@ -9,8 +11,9 @@ class update_profile extends StatefulWidget {
 class _update_profileState extends State<update_profile> {
   @override
   Widget build(BuildContext context) {
-     return const Center(
-      child:Text('update Profile screen'),
+    return Container(
+      child: search_bar(),
     );
+
   }
 }

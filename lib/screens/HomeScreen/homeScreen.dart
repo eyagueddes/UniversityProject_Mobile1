@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import 'package:university_project_mobile/utils/assetsHomePage.dart';
-
+import '../../components/search_bar.dart';
 class home_screen extends StatelessWidget {
   const home_screen({Key? key}) : super(key: key);
 
@@ -26,7 +26,7 @@ class home_screen extends StatelessWidget {
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.25,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 35, 20, 0),
                     child: Column(
                       children: [
                         Row(
@@ -39,13 +39,7 @@ class home_screen extends StatelessWidget {
                               fit: BoxFit.scaleDown,
                               color: Colors.white,
                             ),
-                            SvgPicture.asset(
-                              assetsearch,
-                              height: 20,
-                              width: 6,
-                              fit: BoxFit.scaleDown,
-                              color: Colors.white,
-                            ),
+                            search_bar(),
                           ],
                         ),
                       ],

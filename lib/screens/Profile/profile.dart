@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../components/activityIndicator.dart';
 class profile_screen extends StatefulWidget {
   const profile_screen({Key? key}) : super(key: key);
 
@@ -9,7 +11,11 @@ class profile_screen extends StatefulWidget {
 class _profile_screenState extends State<profile_screen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Container(
+      child: ActivityIndicatorScreen(),
+    );
+
+      Center(
     child:Text('Profile'),
     );
   }

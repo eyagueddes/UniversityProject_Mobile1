@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
               title: 'university',
               theme: ThemeData(
               ),
-              home: const school_Layout(),
+              home: LoginScreen(),
             )
 
     );

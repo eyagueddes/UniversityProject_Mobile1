@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart';
+
 class ActivityIndicatorScreen extends StatefulWidget {
   static String tag = '/ActivityIndicatorScreen';
 
@@ -27,13 +27,7 @@ class ActivityIndicatorScreenState extends State<ActivityIndicatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: appStore.iconColor),
-        title: Text(
-          'Cupertino Activity Indicator',
-          style: TextStyle(color: appStore.textPrimaryColor,fontWeight:FontWeight.bold),
-        ),
-      ),
+
       body: Center(
         child: Theme(
           data: ThemeData.light(),

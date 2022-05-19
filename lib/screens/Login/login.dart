@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:developer';
 import 'package:university_project_mobile/helper/network/dioHelper.dart';
 import 'package:university_project_mobile/screens/Login/cubit/cubit.dart';
 import 'package:university_project_mobile/shared/components/components.dart';
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../layout/school_Layout.dart';
 import '../HomeScreen/homeScreen.dart';
 import 'cubit/states.dart';
 
@@ -44,6 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
               text: 'Connecté avec succès',
               state: ToastStates.SUCCESS,
             );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => school_Layout()));
           }
           if (state is LoginErrorState) {
             showToast(
@@ -187,12 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 login: connexionController.text,
                                 password: passwordController.text,
                               );
-                              if(state is LoginSuccessState){
-                               Navigator.push(
-                                  context,
-                                   MaterialPageRoute(
-                                       builder: (context) => home_screen()));
-                            }}
+                             }
 
                           },
                           text: 'Connectez-vous',
