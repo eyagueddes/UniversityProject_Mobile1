@@ -41,9 +41,9 @@ class LoginCubit extends Cubit<LoginStates> {
   // }
 
    Future <void> userLogin({ required String login,required String password}) async{
-     debugPrint("here");
+     print("here");
     emit(LoginLoadingState());
-     log( ' 000');
+     print( ' 000');
     try{
       Response response  = await DioHelper.postData(url:'api/authStudent',data: {
         'login': login,
@@ -54,10 +54,11 @@ class LoginCubit extends Cubit<LoginStates> {
       // }));
 
       print(  response.data['token']);
-
+      print('done');
       emit(LoginSuccessState());
     }catch(e){
-      debugPrint(e.toString());
+      print(e.toString());
+      emit(LoginErrorState(e.toString()));
     }
   }
 

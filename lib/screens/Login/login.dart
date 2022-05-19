@@ -34,14 +34,20 @@ class _LoginScreenState extends State<LoginScreen> {
         //control and listen to changes(states)the scaffold get as parameters
         listener: (context, state) {
           if (state is LoginLoadingState) {
-            debugPrint("loading ");
+            showToast(
+              text: 'En Cours',
+              state: ToastStates.WARNING,
+            );
           }
           if (state is LoginSuccessState) {
-            debugPrint("login succeeded ");
+            showToast(
+              text: 'Connecté avec succès',
+              state: ToastStates.SUCCESS,
+            );
           }
           if (state is LoginErrorState) {
             showToast(
-              text: state.error,
+              text: 'Login ou mot de passe incorrecte',
               state: ToastStates.ERROR,
             );
           }
@@ -175,18 +181,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: defaultButton(
                           onPressed: () async {
                             if (formGlobalKey.currentState!.validate()) {
-                              log(connexionController.text);
-                              debugPrint(passwordController.text);
-                               cubit.userLogin(
+                              print(connexionController.text);
+                              print(passwordController.text);
+                              await cubit.userLogin(
                                 login: connexionController.text,
                                 password: passwordController.text,
                               );
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => home_screen()));
-                            }
-                            // log(dio.getAllStudents().toString());
+                              if(state is LoginSuccessState){
+                               Navigator.push(
+                                  context,
+                                   MaterialPageRoute(
+                                       builder: (context) => home_screen()));
+                            }}
+
                           },
                           text: 'Connectez-vous',
                         ),

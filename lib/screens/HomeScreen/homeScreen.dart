@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:university_project_mobile/components/curvedNavigationBar.dart';
+
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import 'package:university_project_mobile/utils/assetsHomePage.dart';
@@ -11,7 +11,6 @@ class home_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    //late List<Assets> Cards;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -86,7 +85,7 @@ class home_screen extends StatelessWidget {
                                                 color: logosColors,
                                                 width: size.width * 0.05,
                                               ),
-                                              Text('Actualités',
+                                              const Text('Actualités',
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontFamily: 'Roboto',
@@ -94,8 +93,8 @@ class home_screen extends StatelessWidget {
                                                           FontWeight.bold)),
                                             ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 20
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 20
                                                ),
                                             child: Text(
                                                 'Lorem ipsum dolor sit amet, consectetur \n adipiscing  '
@@ -134,17 +133,16 @@ class home_screen extends StatelessWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    mainAxisExtent: size.height * 0.1,
+                    mainAxisExtent: size.height * 0.13,
                   ),
                   itemBuilder: (BuildContext context, int index) {
-                    Map map = Assets.Cards[index];
                     return Container(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 16, right: 16, top: 20, bottom: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: shadowColor,
                             offset: Offset(5, 5),
@@ -185,25 +183,7 @@ class home_screen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 85,
-        child: CurvedNavigationBar(
-          backgroundColor: logosColors,
-          color: Colors.white,
-          items: <Widget>[
-            SvgPicture.asset(assetHome,
-                height: 24, width: 24, fit: BoxFit.none, color: logosColors,
-            ),
-            SvgPicture.asset(assetUser,
-                height: 24, width: 24, fit: BoxFit.none, color: logosColors),
-            SvgPicture.asset(assetEdit,
-                height: 24, width: 24, fit: BoxFit.none, color: logosColors),
-          ],
-          onTap: (index) {
-            //Handle button tap
-          },
-        ),
-      ),
+
     );
   }
 }
