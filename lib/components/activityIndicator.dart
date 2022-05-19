@@ -31,7 +31,7 @@ class ActivityIndicatorScreenState extends State<ActivityIndicatorScreen> {
         iconTheme: IconThemeData(color: appStore.iconColor),
         title: Text(
           'Cupertino Activity Indicator',
-          style: boldTextStyle(color: appStore.textPrimaryColor),
+          style: TextStyle(color: appStore.textPrimaryColor,fontWeight:FontWeight.bold),
         ),
       ),
       body: Center(
