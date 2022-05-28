@@ -21,7 +21,6 @@ class update_profile extends StatefulWidget {
 
 class _update_profileState extends State<update_profile>
     with TickerProviderStateMixin {
-  var nameController = TextEditingController();
   var phoneController = TextEditingController();
   var adressController = TextEditingController();
   var countryController = TextEditingController();
@@ -119,7 +118,13 @@ class _update_profileState extends State<update_profile>
       builder: (context, state) {
         print('buileded');
         var cubit = SchoolCubit.get(context);
+        emailController.text =cubit.studentData!.email!;
+        phoneController.text = cubit.studentData!.phone!;
+        adressController.text = cubit.studentData!.adress!;
+        countryController.text = cubit.studentData!.country!;
+        governmentController.text = cubit.studentData!.government!;
 
+        print( emailController.text);
         return Scaffold(
           body: SingleChildScrollView(
             child: Form(
@@ -282,8 +287,8 @@ class _update_profileState extends State<update_profile>
                           height: 10.0,
                         ),
                         FormFieldText(
-                          controller: nameController,
-                          type: TextInputType.name,
+                          controller: adressController,
+                          type: TextInputType.text,
                           validate: (value) {
                             // if (value!.isEmpty) {
                             //   return 'name must not be empty';
@@ -315,7 +320,7 @@ class _update_profileState extends State<update_profile>
                         ),
                         FormFieldText(
                           controller: governmentController,
-                          type: TextInputType.phone,
+                          type: TextInputType.text,
                           validate: (value) {
                             if (value!.isEmpty) {
                               return 'phone number must not be empty';
@@ -333,7 +338,7 @@ class _update_profileState extends State<update_profile>
 
                         FormFieldText(
                           controller: passwordController,
-                          type: TextInputType.phone,
+                          type: TextInputType.text,
                           validate: (value) {
                           //   if (value!.isEmpty) {
                           //     return 'phone number must not be empty';
