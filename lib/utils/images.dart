@@ -11,6 +11,7 @@ const assetEdit= 'assets/icons/edit.svg';
 const assetHome= 'assets/icons/home.svg';
 const assetMessages= 'assets/icons/messages.svg';
 const assetDemands= 'assets/icons/demands.svg';
+const assetNotice= 'assets/icons/notices.svg';
 const polygoneLeft= 'assets/icons/polygoneLeft.svg';
 const polygoneRight= 'assets/icons/polygoneRight.svg';
 const userAvatar ="asset/images/user.png";

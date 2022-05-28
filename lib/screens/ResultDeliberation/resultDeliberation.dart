@@ -34,7 +34,7 @@ class _result_DeliberationState extends State<result_Deliberation> {
     var height = MediaQuery.of(context).size.height;
     return BlocProvider(
         create: (BuildContext context) =>
-            SchoolCubit()..getResultDeliberation()..getUserData()..getResultDeliberation(),
+            SchoolCubit()..getResultDeliberation()..getUserData(),
         child: BlocConsumer<SchoolCubit, SchoolStates>(
             listener: (context, state) {},
             builder: (context, state) {

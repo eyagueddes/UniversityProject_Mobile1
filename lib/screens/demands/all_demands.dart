@@ -28,8 +28,6 @@ class _get_allDemandsState extends State<get_allDemands> {
   @override
   void initState() {
     super.initState();
-    image = SchoolCubit().profileImage;
-    print(SchoolCubit.get(context).allDemands);
   }
 
   @override
@@ -42,6 +40,7 @@ class _get_allDemandsState extends State<get_allDemands> {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = SchoolCubit.get(context);
+            image=cubit.profileImage;
             late var width;
             width = MediaQuery.of(context).size.width;
             return Scaffold(

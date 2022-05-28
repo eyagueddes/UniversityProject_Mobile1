@@ -123,8 +123,9 @@ class _update_profileState extends State<update_profile>
         adressController.text = cubit.studentData!.adress!;
         countryController.text = cubit.studentData!.country!;
         governmentController.text = cubit.studentData!.government!;
-
+        var profileImage = cubit.profileImage;
         print( emailController.text);
+        print(profileImage);
         return Scaffold(
           body: SingleChildScrollView(
             child: Form(
@@ -184,7 +185,7 @@ class _update_profileState extends State<update_profile>
                                 child: CircleAvatar(
                                   radius: 60.0,
                                   backgroundImage:
-                                  state is SchoolProfileImagePickedSuccessState ? Image.asset('${cubit.newProfileImage!.path}') as ImageProvider :  NetworkImage("${cubit.profileImage}"),
+                                  state is SchoolProfileImagePickedSuccessState ? Image.asset('${cubit.newProfileImage!.path}') as ImageProvider :  NetworkImage(profileImage),
                                 ),
                               ),
                               cubit.newProfileImage != null ? Container(

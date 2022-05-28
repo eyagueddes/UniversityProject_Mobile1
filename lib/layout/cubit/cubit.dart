@@ -21,6 +21,7 @@ import '../../helper/cache_helper.dart';
 import '../../helper/network/dioHelper.dart';
 import '../../models/actualities.dart';
 import '../../models/marks.dart';
+import '../../models/notices.dart';
 import '../../models/teacher.dart';
 import '../../screens/HomeScreen/homeScreen.dart';
 import '../../screens/Notices/notices.dart';
@@ -446,9 +447,42 @@ class SchoolCubit extends Cubit<SchoolStates> {
     });
   }
 
+  NoticeModel? noticeModel;
+  List<dynamic> allNotices= [];
+  Future<void> getNotices() async {
+    emit(LoadingNoticesDataState());
+    print('recherche en cours');
+    final token=CacheHelper.getData(key: "token");
+    DioHelper.getData(
+        url: 'api/studentDocuments/notices',
+        token:  CacheHelper.getData(key: 'token')).then((value) {
+      print('Notices ,$value');
+      allNotices=value.data;
+      allNotices.map((e) =>
+      noticeModel =  NoticeModel.fromJson(e));
+      emit(NoticesLoadingDataSuccess());
+    }).catchError((error) async {
+      print(error.toString());
+      emit(NoticesLoadingDataError(error.toString()));
+    });
+  }
 
+  void downloadNotice(document) async {
+    final status = await Permission.storage.request();
+    if (status.isGranted) {
+      final externalDir = await getExternalStorageDirectory();
+      final id = await FlutterDownloader.enqueue(
+        url: document.toString(),
+        savedDir: externalDir!.path,
+        fileName: "Avis",
+        showNotification: true,
+        openFileFromNotification: true,
 
-
+      );
+    } else {
+      print('Permission Denied');
+    }
+  }
 
 
   var newProfileImage;

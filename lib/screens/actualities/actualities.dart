@@ -223,7 +223,7 @@ class _actualitiesState extends State<actualities> {
                                                             fontSize: TtextSize,
                                                             textColor:
                                                                 color[900]),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 4,
                                                         ),
                                                         text(
@@ -233,7 +233,7 @@ class _actualitiesState extends State<actualities> {
                                                             fontSize:
                                                                 textSizeSMedium,
                                                             maxLine: 3),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 4,
                                                         ),
                                                       ],

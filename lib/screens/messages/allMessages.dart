@@ -31,11 +31,8 @@ class _get_allMessagesState extends State<get_allMessages> {
   void initState() {
     super.initState();
 
-    void initState() {
-      super.initState();
-      image=SchoolCubit().profileImage;
     }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +44,7 @@ class _get_allMessagesState extends State<get_allMessages> {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = SchoolCubit.get(context);
+            image=cubit.profileImage;
             late var width;
             width = MediaQuery.of(context).size.width;
             return Scaffold(
@@ -150,7 +148,7 @@ class _get_allMessagesState extends State<get_allMessages> {
                                                   Text('Sujet: ',
                                                       style:
                                                       primaryTextStyle()),
-                                                  text(cubit.allMessages[index]['subject'],
+                                                  text(cubit.allMessages[index]['subject'],maxLine: 1,
                                                       textColor:
                                                           appStore.textPrimaryColor,
                                                       fontSize: textSizeSMedium),
@@ -164,15 +162,19 @@ class _get_allMessagesState extends State<get_allMessages> {
                                         ],
                                       ),
                                       SizedBox(height: 16),
-                                      Row(
-                                        children: [
-                                          Text('Description: ',
-                                              style:
-                                              primaryTextStyle()),
-                                          Text(cubit.allMessages[index]['text'],
-                                              style: secondaryTextStyle(),maxLines: 2,),
-                                        ],
-                                      ),
+
+
+                                            Row(
+                                              children: [
+                                                Text('Description: ',
+                                                    style:
+                                                    primaryTextStyle()),
+                                                Text(cubit.allMessages[index]['text'],
+                                                  style: secondaryTextStyle(),maxLines: 2,),
+                                              ],
+                                            ),
+
+
                                       SizedBox(height: 16),
                                     ],
                                   ),

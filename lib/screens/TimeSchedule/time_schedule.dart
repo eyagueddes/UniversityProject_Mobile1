@@ -25,7 +25,6 @@ class _time_scheduleState extends State<time_schedule> {
   var image;
   void initState() {
     super.initState();
-    image=SchoolCubit().profileImage;
   }
   // ReceivePort _port = ReceivePort();
   //
@@ -63,11 +62,13 @@ class _time_scheduleState extends State<time_schedule> {
     return BlocProvider(
         create: (BuildContext context) =>
         SchoolCubit()
-          ..getUserTimeSchedule()..getUserData()..getUserTimeSchedule(),
+          ..getUserTimeSchedule()..getUserData(),
         child: BlocConsumer<SchoolCubit, SchoolStates>(
             listener: (context, state) {},
             builder: (context, state) {
               var cubit = SchoolCubit.get(context);
+              image=cubit.profileImage;
+              print(image);
               return Scaffold(
                 backgroundColor: GWhite,
                 body: Column(

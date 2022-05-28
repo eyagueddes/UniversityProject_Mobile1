@@ -192,3 +192,14 @@ class updateProfileAddinggDataError extends SchoolStates {
   late String error ;
   updateProfileAddinggDataError(this.error);
 }
+class NoticestInitialState extends SchoolStates {}
+class LoadingNoticesDataState extends SchoolStates {}
+class NoticesLoadingDataSuccess extends SchoolStates {
+  // final StudentModel? studentModel ;
+
+  NoticesLoadingDataSuccess();
+}
+class NoticesLoadingDataError extends SchoolStates {
+  late String error ;
+  NoticesLoadingDataError(this.error);
+}
