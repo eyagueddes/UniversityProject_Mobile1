@@ -67,6 +67,9 @@ flutter:
      - family: Roboto
        fonts:
         - asset: fonts/Roboto-Regular.ttf
+     - family: Parisienne
+       fonts:
+        - asset: fonts/Parisienne-Regular.ttf
 
   #   - family: Trajan Pro
   #     fonts:

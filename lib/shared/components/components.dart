@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../components/styleWidget.dart';
 Widget defaultTextField({
   double width = 5,
   double height = 5,

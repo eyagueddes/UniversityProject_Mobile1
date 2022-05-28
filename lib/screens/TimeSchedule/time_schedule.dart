@@ -102,7 +102,7 @@ class _time_scheduleState extends State<time_schedule> {
                                 Row(
                                   children: <Widget>[
                                     CircleAvatar(
-                                      backgroundImage:image!=null? NetworkImage(image):NetworkImage(noImageAsset),
+                                      backgroundImage:image!=null? NetworkImage(image):const NetworkImage(noImageAsset),
                                     ),
                                   ],
                                 ),

@@ -53,7 +53,7 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers = {
-      'Authorization': token ?? '',
+      'x-auth-token': token ?? '',
       'Content-Type': 'application/json',
     };
 
@@ -69,7 +69,7 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers = {
-      'Authorization': token ?? '',
+      'x-auth-token': token ?? '',
       'Content-Type': 'application/json',
     };
 

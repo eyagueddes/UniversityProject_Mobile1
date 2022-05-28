@@ -19,6 +19,7 @@ class DefaultFormField extends StatelessWidget {
   Function()? pressSuffix ;
   String? hint ;
   int? maxLine ;
+  int? minLine;
   String? prefix;
 
 
@@ -35,6 +36,7 @@ class DefaultFormField extends StatelessWidget {
     this.pressSuffix,
     this.hint,
     this.maxLine,
+    this.minLine,
     this.prefix
   });
 

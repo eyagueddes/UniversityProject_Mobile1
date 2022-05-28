@@ -1,6 +1,21 @@
 class DemandModel {
 
+  String studentName;
+  String subject;
+  String raison;
+  String? langue;
+  String date;
+  String status;
 
+  DemandModel({
+    required this.studentName,
+    required this.subject,
+    required this.raison,
+    required this.date,
+    this.langue,
+    required this.status,
+
+  });
   Map<String, dynamic> toMap() {
     return {
       'studentName': this.studentName,
@@ -23,20 +38,5 @@ class DemandModel {
     );
   }
 
-  String studentName;
-  String subject;
-  String raison;
-  String? langue;
-  String date;
-  String status;
 
-  DemandModel({
-    required this.studentName,
-    required this.subject,
-    required this.raison,
-    required this.date,
-    this.langue,
-    required this.status,
-
-  });
 }

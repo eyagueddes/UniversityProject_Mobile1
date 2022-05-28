@@ -12,7 +12,8 @@ import 'package:university_project_mobile/utils/images.dart';
 import '../../components/defaultFormField.dart';
 import '../../layout/cubit/cubit.dart';
 import '../../shared/components/components.dart';
-class  add_demand extends StatefulWidget {
+
+class add_demand extends StatefulWidget {
   const add_demand({Key? key}) : super(key: key);
 
   @override
@@ -20,20 +21,19 @@ class  add_demand extends StatefulWidget {
 }
 
 class _State extends State<add_demand> {
-
-
   @override
   void initState() {
     super.initState();
     print('image');
   }
+
   var subjectController = TextEditingController();
   var raisonController = TextEditingController();
   var phoneController = TextEditingController();
   var languageController = TextEditingController();
   var _formkey = GlobalKey<FormState>();
 
-  String? _selected ;
+  String? _selected;
   @override
   Widget build(BuildContext context) {
     // var user=context.watch<SchoolCubit>().getUserData();
@@ -47,226 +47,267 @@ class _State extends State<add_demand> {
         },
       );
     }
+
     return BlocProvider(
         create: (BuildContext context) => SchoolCubit()..getUserData(),
-        child: BlocConsumer<SchoolCubit, SchoolStates>(
-        listener: (context, state) {
+        child:
+            BlocConsumer<SchoolCubit, SchoolStates>(listener: (context, state) {
           if (state is DemandAddingSuccessState) {
             showToast(
               text: 'succes',
               state: ToastStates.SUCCESS,
             );
           }
-
-        },
-    builder: (context, state) {
-    var cubit = SchoolCubit.get(context);
-    return Scaffold(
-      backgroundColor: GWhite,
-      body: Column(
-        children: <Widget>[
-      //header
-      Stack(
-      children: <Widget>[
-        Container(
-        width: double.infinity,
-        height: 140,
-        child: CustomPaint(painter: _MyPainter()),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                 // leadingWidget(),
-                  IconButton(
-                    icon: Icon(Icons.keyboard_arrow_left, size: 40, color: t5White),
-                    onPressed: () {
-                      finish(context);
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children:  <Widget>[
-                  CircleAvatar(
-                    backgroundImage:cubit.profileImage!=null? NetworkImage(cubit.profileImage):NetworkImage(noImageAsset),
-                  ),
-                  // IconButton(
-                  //   icon: Icon(Icons.favorite, color: white),
-                  //   onPressed: () {
-                  //     finish(context);
-                  //   },
-                  // ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      ],
-    ),
-       Expanded(
-         child: SingleChildScrollView(
-          child: Form(
-            key: _formkey,
-            child: Container(
-              height: MediaQuery.of(context).size.height*0.82,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.0315),
-
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+        }, builder: (context, state) {
+          var cubit = SchoolCubit.get(context);
+          return Scaffold(
+            backgroundColor: GWhite,
+            body: Column(
+              children: <Widget>[
+                //header
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      height: 140,
+                      child: CustomPaint(painter: _MyPainter()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                // leadingWidget(),
+                                IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_left,
+                                      size: 40, color: t5White),
+                                  onPressed: () {
+                                    finish(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundImage: cubit.profileImage != null
+                                      ? NetworkImage(cubit.profileImage)
+                                      : NetworkImage(noImageAsset),
+                                ),
+                                // IconButton(
+                                //   icon: Icon(Icons.favorite, color: white),
+                                //   onPressed: () {
+                                //     finish(context);
+                                //   },
+                                // ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formkey,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.82,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          //mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text('Type de Demande : ',
-                              style: GoogleFonts.inter(
-                                  color: black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Center(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width*0.85,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                      alignedDropdown:true ,
-                                      child: DropdownButtonFormField(
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none
-                                        ),
-                                        menuMaxHeight:200,
-                                        itemHeight: 50,
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            _selected = newValue!;
-                                            subjectController.text=newValue;
-                                            print('  subjectController,${subjectController.text}');
-
-                                          });
-                                        },
-                                        hint: Text('Choisir une demande'),
-                                        items: cubit.Demands
-                                            .map<DropdownMenuItem<String>>((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text('Raison: ',
-                              style: GoogleFonts.inter(
-                                  color: black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Center(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width*0.85,
-                                child: DefaultFormField(
-                                  prefix: assetMessages,
-                                  controller: raisonController,
-                                  validation: (value){
-                                    if (value == null || value.isEmpty){
-                                      return 'Veuillez saisir ce champ';
-                                    }
-                                  },
-                                  label: "", keyboardType: TextInputType.text,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text('Numéro de téléphone: ',
-                              style: GoogleFonts.inter(
-                                  color: black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Center(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width*0.85,
-                                child: DefaultFormField(
-                                  controller: phoneController,
-                                  validation: (value){
-                                    if (value == null || value.isEmpty){
-                                      return 'Veuillez saisir ce champ';
-                                    }
-                                  },
-                                  label: "", keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ),
-                            Text('Langue ',
-                              style: GoogleFonts.inter(
-                                  color: black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Center(
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width*0.85,
-                                child: DefaultFormField(
-                                  controller: languageController,
-                                  validation: (value){
-                                    if (value == null || value.isEmpty){
-                                      return 'Veuillez saisir ce champ';
-                                    }
-                                  },
-                                  label: "", keyboardType: TextInputType.text,
-                                ),
-                              ),
-                            ),
                             SizedBox(
-                              width: double.infinity,
-                              height: 70.0,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 30.0, 10, 0),
-                                child: defaultButton(
-                                  onPressed: () async {
-                                    if (_formkey.currentState!.validate()) {
-                                      print(phoneController.text);
-                                      print(raisonController.text);
-                                      await cubit.addDemand(
-                                        phone: phoneController.text,
-                                        langue: languageController.text,
-                                        subject: subjectController.text
-                                      );
-                                    }
-
-                                  },
-                                  text: 'Envoyer',
+                                height: MediaQuery.of(context).size.height *
+                                    0.0315),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Type de Demande : ',
+                                        style: GoogleFonts.inter(
+                                            color: black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.85,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: DropdownButtonHideUnderline(
+                                              child: ButtonTheme(
+                                                alignedDropdown: true,
+                                                child: DropdownButtonFormField(
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          border:
+                                                              InputBorder.none),
+                                                  menuMaxHeight: 200,
+                                                  itemHeight: 50,
+                                                  onChanged:
+                                                      (String? newValue) {
+                                                    setState(() {
+                                                      _selected = newValue!;
+                                                      subjectController.text =
+                                                          newValue;
+                                                      print(
+                                                          '  subjectController,${subjectController.text}');
+                                                    });
+                                                  },
+                                                  hint: Text(
+                                                      'Choisir une demande'),
+                                                  items: cubit.Demands.map<
+                                                          DropdownMenuItem<
+                                                              String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Raison: ',
+                                        style: GoogleFonts.inter(
+                                            color: black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.85,
+                                          child: DefaultFormField(
+                                            maxLine: 3,
+                                            prefix: assetMessages,
+                                            controller: raisonController,
+                                            validation: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Veuillez saisir ce champ';
+                                              }
+                                            },
+                                            label: "",
+                                            keyboardType: TextInputType.multiline,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Numéro de téléphone: ',
+                                        style: GoogleFonts.inter(
+                                            color: black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.85,
+                                          child: DefaultFormField(
+                                            controller: phoneController,
+                                            validation: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Veuillez saisir ce champ';
+                                              }
+                                            },
+                                            label: "",
+                                            keyboardType: TextInputType.number,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Langue ',
+                                        style: GoogleFonts.inter(
+                                            color: black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.85,
+                                          child: DefaultFormField(
+                                            controller: languageController,
+                                            validation: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Veuillez saisir ce champ';
+                                              }
+                                            },
+                                            label: "",
+                                            keyboardType: TextInputType.text,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        height: 70.0,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10, 30.0, 10, 0),
+                                          child: defaultButton(
+                                            onPressed: () async {
+                                              if (_formkey.currentState!
+                                                  .validate()) {
+                                                print(phoneController.text);
+                                                print(raisonController.text);
+                                                await cubit.addDemand(
+                                                  phone: phoneController.text,
+                                                  langue:
+                                                      languageController.text,
+                                                  subject:
+                                                      subjectController.text,
+                                                  raison: raisonController.text,
+                                                );
+                                              }
+                                            },
+                                            text: 'Envoyer',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -275,18 +316,14 @@ class _State extends State<add_demand> {
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-      ),
-       ),
-    ],
-      ),
-    );
-    }));
+          );
+        }));
   }
 }
+
 class _MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -296,7 +333,8 @@ class _MyPainter extends CustomPainter {
 
     Path path = Path();
     path.lineTo(0, size.height - 40);
-    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 50);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height - 50);
     path.lineTo(size.width, 0);
 
     canvas.drawPath(path, paint);

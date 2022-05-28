@@ -15,6 +15,7 @@ import 'package:university_project_mobile/models/demands.dart';
 import 'package:university_project_mobile/models/student.dart';
 import 'package:university_project_mobile/screens/TimeSchedule/time_schedule.dart';
 import 'package:university_project_mobile/screens/actualities/actualities.dart';
+import 'package:university_project_mobile/screens/demands/all_demands.dart';
 import 'package:university_project_mobile/screens/messages/allMessages.dart';
 import '../../helper/cache_helper.dart';
 import '../../helper/network/dioHelper.dart';
@@ -55,7 +56,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
   }
 
   List<Widget> Homescreens = [
-    const add_demand(),
+    const get_allDemands(),
     const get_allMessages(),
     const result_Deliberation(),
     exam_calendar(),
@@ -158,7 +159,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
   var studentId;
 
   Future <void> addDemand(
-      { required String subject, required String phone, String? langue}) async {
+      { required String subject, required String phone, String? langue,String? raison}) async {
     print("here");
     emit(DemandAddingLoadingState());
     DioHelper.getData(
@@ -178,6 +179,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
         'langue': langue,
         'studentName': name + ' ' + LastName,
         'StudentId': studentId,
+        'raison':raison,
       },
       );
       print(response.data);
@@ -341,7 +343,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
   List<dynamic> allteachers = [];
   TeacherModel? teacherModel;
 
-  Future<void> getTeachers() async {
+  Future<void> getTeachers(String query) async {
     emit(TeacherLoadingDataState());
     DioHelper.getData(
       url: 'api/teacher/all',
@@ -358,6 +360,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
       emit(TeacherLoadingDataError(error.toString()));
     });
   }
+
 
   var schedule;
 
@@ -398,7 +401,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
 
 
   DemandModel? demandModel;
-
+  List<dynamic> allDemands = [];
   Future<void> getDemands() async {
     emit(DemandsLoadingDataState());
     print('recherche en cours');
@@ -408,8 +411,11 @@ class SchoolCubit extends Cubit<SchoolStates> {
         url: 'api/studentDocuments/demands',
         token: CacheHelper.getData(key: 'token')).then((value) {
       print('demands ,${value}');
-      demandModel = DemandModel.fromJson(value.data);
-        print(demandModel);
+      allDemands=value.data;
+      allDemands.map((e) =>
+      demandModel = DemandModel.fromJson(e));
+        print(allDemands.length);
+      print(allDemands[0]['langue']);
       emit(DemandsLoadingDataSuccess(demandModel));
     }).catchError((error) async {
       print(error.toString());
@@ -471,8 +477,6 @@ class SchoolCubit extends Cubit<SchoolStates> {
     try {
       String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap({
-
-
         "avatar":
         await MultipartFile.fromFile(file.path, filename:fileName),
         //"client_id":CacheHelper.getData(key: 'Id')
@@ -491,6 +495,31 @@ class SchoolCubit extends Cubit<SchoolStates> {
     }
   }
 
+  Future <void> updateProfile(
+      { String? government,  String? password, String? email, String? country, String? phone,String? adress}) async {
+    print('update now');
+    emit(updateProfileAddingDataLoadingState());
+    final token = CacheHelper.getData(key: "token");
+    print('token,$token');
+    DioHelper.putData(
+        url: 'api/authStudent/updateProfile', token:token, data: {
+        'government': government,
+        'email': email,
+        'country': country,
+        'phone': phone,
+        'adress': adress,
+        'password': password
+      },
+      ).then((value) {
+        print(value);
+        emit(updateProfileAddingDataSuccess(studentData));
+      }).catchError((error) async {
+        print(error.toString());
+        emit(updateProfileAddinggDataError(error.toString()));
+      });
+
+
+  }
 }
 
 

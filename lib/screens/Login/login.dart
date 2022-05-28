@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:university_project_mobile/helper/network/dioHelper.dart';
 import 'package:university_project_mobile/layout/cubit/cubit.dart';
 import 'package:university_project_mobile/layout/cubit/states.dart';
@@ -202,16 +204,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     // ClipPath(
                     //   clipper: MyClipper(),
                     //   child: Container(
+                    //     child:const  Text("Pour une vie universitaire plus facile",style:  TextStyle(
+                    //       fontFamily: 'Parisienne',
+                    //     ),
+                    //     ),
                     //     width: MediaQuery.of(context).size.width,
                     //     height: MediaQuery.of(context).size.height * 0.2,
-                    //     decoration: BoxDecoration(
-                    //         // borderRadius: BorderRadius.only(
-                    //         //   topLeft:Radius.circular(50),
-                    //         //   topRight: Radius.circular(50)
-                    //         // ),
-                    //         color: logosColors),
+                    //       color: logosColors),
                     //   ),
-                    // )
                   ],
                 ),
               ),

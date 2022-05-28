@@ -175,6 +175,7 @@ class _add_messageState extends State<add_message> {
                                               0.85,
                                           child: DefaultFormField(
                                             controller: textController,
+                                            maxLine: 6,
                                             validation: (value) {
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -182,7 +183,7 @@ class _add_messageState extends State<add_message> {
                                               }
                                             },
                                             label: "",
-                                            keyboardType: TextInputType.text,
+                                            keyboardType: TextInputType.multiline,
                                           ),
                                         ),
                                       ),

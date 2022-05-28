@@ -9,6 +9,8 @@ const kTextLightColor = Color(0xFF747474);
 const shadowColor = Color(0xFFdfdfdf);
 const roundColor = Color(0xFFE2FFF9);
 const kiconsColor = Color(0xFF7A7028);
+const PendCOlor=Color(0xFFF1A928);
+const YColor = Color(0XFF02C29B);
 const db2_textColorSecondary = Color(0xFF757575);
 const t2_colorPrimary = Color(0XFF5959fc);
 const t2_colorPrimaryDark = Color(0XFF7900F5);
@@ -48,7 +50,6 @@ const t5LayoutBackgroundWhite = Color(0XFFF6F7FA);
 const t5ViewColor = Color(0XFFB4BBC2);
 const t5SkyBlue = Color(0XFF1fc9cd);
 const t5DarkNavy = Color(0XFF130925);
-const t5Cat1 = Color(0XFF45c7db);
 const t5Cat2 = Color(0XFF510AD7);
 const t5Cat3 = Color(0XFFe43649);
 const t5Cat4 = Color(0XFFf4b428);
@@ -57,7 +58,7 @@ const t5Cat6 = Color(0XFF203afb);
 const t5ShadowColor = Color(0X95E9EBF0);
 const t5DarkRed = Color(0XFFF06263);
 const t5ColorPrimaryLight = Color(0X505104D7);
-
+const t7colorPrimary = Color(0xFF2F95A1);
 
 
 Map<int, Color> color= {

@@ -180,3 +180,15 @@ class SchoolUserUpdateLoadingState extends SchoolStates {}
 
 class SchoolUserUpdateErrorState extends SchoolStates {}
 class SchoolUserUpdateSuccessState extends SchoolStates {}
+
+class updateProfileInitialState extends SchoolStates {}
+class updateProfileAddingDataLoadingState extends SchoolStates {}
+class updateProfileAddingDataSuccess extends SchoolStates {
+  final StudentData? studentData ;
+
+  updateProfileAddingDataSuccess(this.studentData);
+}
+class updateProfileAddinggDataError extends SchoolStates {
+  late String error ;
+  updateProfileAddinggDataError(this.error);
+}
