@@ -113,3 +113,43 @@ Color chooseToastColor(ToastStates state) {
 
   return color;
 }
+Widget FormFieldText({
+  required TextEditingController controller,
+  required TextInputType type,
+  final String? Function(String?)?  onSubmit,
+  final String? Function(String?)?  onChange,
+  Function? onTap,
+  bool isPassword = false,
+  required  final String? Function(String?)?  validate,
+  required String label,
+  required IconData prefix,
+  IconData? suffix,
+  Function()? suffixPressed,
+  bool isClickable = true,
+  int maxLines =1,
+}) =>
+    TextFormField(
+      maxLines: maxLines,
+      controller: controller,
+      keyboardType: type,
+      obscureText: isPassword,
+      enabled: isClickable,
+      onFieldSubmitted: onSubmit,
+      onChanged: onChange,
+      validator: validate,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(
+          prefix,
+        ),
+        suffixIcon: suffix != null
+            ? IconButton(
+          onPressed: suffixPressed,
+          icon: Icon(
+            suffix,
+          ),
+        )
+            : null,
+        border: OutlineInputBorder(),
+      ),
+    );

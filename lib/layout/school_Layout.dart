@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +13,10 @@ class school_Layout extends StatefulWidget {
   State<school_Layout> createState() => _school_LayoutState();
 }
 class _school_LayoutState extends State<school_Layout> {
+  void initState() {
+     print("eya,${SchoolCubit.get(context).studentData?.name}");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,6 +26,7 @@ class _school_LayoutState extends State<school_Layout> {
             builder: (context, state) {
               var cubit = SchoolCubit.get(context);
               return Scaffold(
+               // appBar: mainAppBar("${context.watch<SchoolCubit>().studentModel?.data?.name}"),
                 body: cubit.screens[cubit.currentIndex],
                 bottomNavigationBar: Container(
                   height: 80,
@@ -50,7 +54,7 @@ class _school_LayoutState extends State<school_Layout> {
                     ],
                     onTap: (index) {
                       cubit.changeBottomNav(index);
-                    },
+                                },
                   ),
                 ),
               );

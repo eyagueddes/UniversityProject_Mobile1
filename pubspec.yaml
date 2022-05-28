@@ -26,6 +26,17 @@ dependencies:
   bloc: ^8.0.1
   fluttertoast: ^8.0.9
   shared_preferences: ^2.0.13
+  flutter_downloader: ^1.7.4
+  permission_handler: ^8.1.4+2
+  path_provider: ^2.0.2
+  json_annotation: ^4.0.1
+  nb_utils: ^4.5.0
+  google_fonts: ^2.2.0
+  cloudinary_public: ^0.11.0
+  cached_network_image: ^3.2.0
+  cloudinary_sdk: ^4.0.1+9
+  intl: ^0.17.0
+  image_picker: ^0.8.5+3
 
 
 dev_dependencies:

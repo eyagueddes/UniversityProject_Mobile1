@@ -1,66 +1,75 @@
- class StudentModel
-{
-  String name;
-  String uId;
-  String LastName;
-  String numInscription;
-  String classe;
-  String email;
-  String dateBirth;
-  String adress;
-  String phone;
-  String avatar;
-  String gender;
-  String government;
-  String country;
+
+class StudentData {
+   String? name;
+   String id;
+   String? LastName;
+   String? numInscription;
+   String? classe;
+   String? email;
+   String? dateBirth;
+   String? adress;
+   String? phone;
+   String? avatar;
+   String? gender;
+   String? government;
+   String? country;
 
 
-  StudentModel({
-    required this.name,
-    required this.uId,
-    required this.LastName,
-    required this.numInscription,
-    required this.classe,
-    required this.email,
-    required this.dateBirth,
-    required this.adress,
-    required this.phone,
-    required this.avatar,
-    required this.gender,
-    required this.government,
-    required this.country,
-  });
+   StudentData({
+     required this.name,
+     required this.id,
+     required this.LastName,
+     required this.numInscription,
+     required this.classe,
+      this.email,
+     this.dateBirth,
+      this.adress,
+     this.phone,
+      this.avatar,
+    this.gender,
+      this.government,
+     this.country,
+   });
 
 
-  factory StudentModel.fromJson(Map<String, dynamic> json)
-  {
-    return StudentModel(
-        name: json['name'],
-        uId: json['uId'],
-        LastName: json['LastName'],
-        numInscription: json['numInscription'],
-        classe : json['classe'],
-        email : json['email'],
-        dateBirth : json['dateBirth'],
-        adress : json['adress'],
-        phone : json['phone'],
-        avatar : json['avatar'],
-        gender : json['gender'],
-        government : json['government'],
-        country : json['country'],
 
+   factory StudentData.fromJson(Map<String, dynamic> json)
+   {
+     return StudentData(
+       name: json['name'],
+       id: json['_id'],
+       LastName: json['LastName'],
+       numInscription: json['numInscription'],
+       classe: json['classe'],
+       email: json['email'],
+       dateBirth: json['dateBirth'],
+       adress: json['adress'],
+       phone: json['phone'],
+       avatar: json['avatar'],
+       gender: json['gender'],
+       government: json['government'],
+       country: json['country'],
+
+     );
+   }
+
+
+
+  factory StudentData.fromMap(Map<String, dynamic> map) {
+    return StudentData(
+      name: map['name'] as String,
+      id: map['_id'] as String,
+      LastName: map['LastName'] as String,
+      classe: map['classe'] as String,
+      dateBirth: map['dateBirth'] as String,
+      adress: map['adress'] as String,
+      phone: map['phone'] as String,
+      avatar: map['avatar'] as String,
+      gender: map['gender'] as String,
+      email: map['email'] as String,
+      government: map['government'] as String,
+      country: map['country'] as String,
+      numInscription: map['numInscription'] as String,
     );
-  }
-
-  Map<String, dynamic> toMap()
-  {
-    return {
-      'name':name,
-      'uId':uId,
-      'LastName':LastName,
-      'numInscription':numInscription,
-      'classe':classe,
-      'email':email,
-    };
   }
 }

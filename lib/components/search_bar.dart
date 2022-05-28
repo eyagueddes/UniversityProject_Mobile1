@@ -30,7 +30,7 @@ class _search_barState extends State<search_bar> with SingleTickerProviderStateM
             child: AnimatedContainer(
               duration: Duration(milliseconds: 375),
               height: 40.0,
-              width: (toggle == 0) ? 48.0 : 200.0,
+              width: (toggle == 0) ? 40.0 : 200.0,
               curve: Curves.easeOut,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -40,7 +40,7 @@ class _search_barState extends State<search_bar> with SingleTickerProviderStateM
                     color: Colors.black26,
                     spreadRadius: -10.0,
                     blurRadius: 10.0,
-                    offset: Offset(0.0, 10.0),
+                    offset: Offset(0.0, 0.0),
                   ),
                 ],
               ),
@@ -72,7 +72,7 @@ class _search_barState extends State<search_bar> with SingleTickerProviderStateM
                       duration: Duration(milliseconds: 200),
                       child: Container(
                         height: 20.0,
-                        width: 180.0,
+                        width: 150.0,
                         child: TextField(
                           controller: _textEditingController,
                           cursorRadius: Radius.circular(10.0),

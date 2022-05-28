@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:university_project_mobile/helper/network/dioHelper.dart';
-import 'package:university_project_mobile/screens/Login/cubit/cubit.dart';
+import 'package:university_project_mobile/layout/cubit/cubit.dart';
+import 'package:university_project_mobile/layout/cubit/states.dart';
 import 'package:university_project_mobile/shared/components/components.dart';
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../layout/school_Layout.dart';
 import '../HomeScreen/homeScreen.dart';
-import 'cubit/states.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -28,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
   return BlocProvider(
-      create: (BuildContext context) => LoginCubit()..teed(), //creation
-      child: BlocConsumer<LoginCubit, LoginStates>(  //to know any cubit and any states it will control
+      create: (BuildContext context) => SchoolCubit(), //creation
+      child: BlocConsumer<SchoolCubit, SchoolStates>(  //to know any cubit and any states it will control
         //control and listen to changes(states)the scaffold get as parameters
         listener: (context, state) {
           if (state is LoginLoadingState) {
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },  //builder and listner are required //listen to listen to scaffold
         builder: (context, state) {
-          var cubit=LoginCubit.get(context);//builder will rebuild based on what he listened
+          var cubit=SchoolCubit.get(context);//builder will rebuild based on what he listened
           return Scaffold(
               body: Center(
             child: SingleChildScrollView(

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 
 class Assets {
@@ -8,6 +7,7 @@ class Assets {
     {
       'title': 'Demandes',
       'image': 'assets/icons/demands.svg',
+
 
     },
     {
@@ -24,10 +24,12 @@ class Assets {
       'title': "Calendrier \n d'examens",
       'image': 'assets/icons/calendar.svg',
 
+
     },
     {
       'title': "Plan \n d'études",
       'image': 'assets/icons/studyPlan.svg',
+
 
     },
     {
@@ -46,9 +48,16 @@ class Assets {
 
     },
     {
-      'title': "Documents",
-      'image': 'assets/icons/documents.svg',
-
+      'title': "Actualités",
+      'image': 'assets/icons/edit.svg',
     },
+    // {
+    //   'title': "Documents",
+    //   'image': 'assets/icons/documents.svg',
+    //
+    // },
+
   ];
+
 }
+
