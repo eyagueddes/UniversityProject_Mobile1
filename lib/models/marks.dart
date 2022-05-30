@@ -16,7 +16,7 @@ class DeliberationModel {
 
    Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
+      '_id': this.id,
       'classe': this.classe,
       'semester': this.semester,
       'document': this.document,

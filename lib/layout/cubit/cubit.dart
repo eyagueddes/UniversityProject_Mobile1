@@ -323,26 +323,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
     }
   }
 
-  List<dynamic> allteachers = [];
-  TeacherModel? teacherModel;
 
-  Future<void> getTeachers(String query) async {
-    emit(TeacherLoadingDataState());
-    DioHelper.getData(
-      url: 'api/teacher/all',
-    ).then((value) {
-      print('teachers ,$value');
-      allteachers = value.data;
-      allteachers.map((e) =>
-      teacherModel = TeacherModel.fromJson(e));
-      print(allteachers.length);
-      print(allteachers[0]['_id']);
-      emit(TeacherLoadingDataSuccess(teacherModel));
-    }).catchError((error) async {
-      print(error.toString());
-      emit(TeacherLoadingDataError(error.toString()));
-    });
-  }
 
 
   var schedule;
@@ -396,6 +377,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
       allActualities = actualities.map((e) {
         return ActualityModel.fromJson(e);
       }).toList();
+      print(allActualities);
       emit(ActualitiesLoadingDataSuccess());
 
     }).catchError((error) async {
@@ -403,7 +385,27 @@ class SchoolCubit extends Cubit<SchoolStates> {
       emit(ActualitiesLoadingDataError(error.toString()));
     });
   }
-
+  List<TeacherModel> allTeachers = [];
+  TeacherModel? teacherModel;
+  List teachers=[];
+  Future<void> getTeachers() async {
+    emit(TeacherLoadingDataState());
+    DioHelper.getData(
+      url: 'api/teacher/all',
+    ).then((value) {
+      print('teachers ,$value');
+      teachers = value.data;
+      print(teachers);
+      allTeachers = teachers.map((e) {
+        return TeacherModel.fromJson(e);
+      }).toList();
+      print('all,$allTeachers');
+      emit(TeacherLoadingDataSuccess());
+    }).catchError((error) async {
+      print(error.toString());
+      emit(TeacherLoadingDataError(error.toString()));
+    });
+  }
 
   MessageModel? messageModel;
   List<MessageModel>  allMessages = [];
@@ -580,6 +582,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
 
 
   }
-}
 
+
+}
 

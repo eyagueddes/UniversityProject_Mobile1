@@ -130,9 +130,9 @@ class StudyPlanLoadingDataError extends SchoolStates {
 class TeacherInitialState extends SchoolStates {}
 class TeacherLoadingDataState extends SchoolStates {}
 class TeacherLoadingDataSuccess extends SchoolStates {
-  final TeacherModel? teacherModel ;
 
-  TeacherLoadingDataSuccess(this.teacherModel);
+
+  TeacherLoadingDataSuccess();
 }
 class TeacherLoadingDataError extends SchoolStates {
   late String error ;

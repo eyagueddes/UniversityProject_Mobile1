@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,11 +24,12 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
   final formGlobalKey = GlobalKey<FormState>();
   var connexionController = TextEditingController();
   var passwordController = TextEditingController();
   final DioHelper dio = DioHelper();
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,21 +71,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Padding(padding: EdgeInsets.only(top: 20)),
-                    SvgPicture.asset(
-                      assetLogin,
-                      semanticsLabel: 'Acme Logo',
-                      width: 200,
-                      color: logosColors,
-                    ),
+
+                       SvgPicture.asset(
+                        assetLogin,
+                        semanticsLabel: 'Acme Logo',
+                        width: 200,
+                        color: logosColors,
+                      ),
                     const SizedBox(
-                      height: 40,
+                      height: 20,
+                    ),
+                    const Text(
+                      'UniSpace',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: logosColors,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 45,
+                          fontFamily: 'Dancing'),
+                    ),
+
+                    const SizedBox(
+                      height: 20,
                     ),
                     const Text(
                       'Bienvenue',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 19,
                           fontFamily: 'Roboto'),
                     ),
 

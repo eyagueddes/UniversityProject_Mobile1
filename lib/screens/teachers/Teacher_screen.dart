@@ -18,27 +18,29 @@ class teacher_screen extends StatefulWidget {
 }
 
 class _teacher_screenState extends State<teacher_screen> {
-  String query='';
-  late List<dynamic> teachers;
-
+  //List ListOfteachers = [];
+ // String query = '';
   @override
   void initState() {
     super.initState();
 
   }
-    TextEditingController?_textEditingController=TextEditingController();
+
+  TextEditingController? _searchTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) =>
-        SchoolCubit()
-          ..getTeachers(query)
+        create: (BuildContext context) => SchoolCubit()
+          ..getTeachers()
           ..getUserData(),
         child: BlocConsumer<SchoolCubit, SchoolStates>(
             listener: (context, state) {},
             builder: (context, state) {
               var cubit = SchoolCubit.get(context);
-              teachers=cubit.allteachers;
+             // ListOfteachers=cubit.teachers;
+            //
+              //  print('ok,$ListOfteachers');
+              //  teachers=cubit.allteachers;
               return SafeArea(
                 child: Scaffold(
                   backgroundColor: context.scaffoldBackgroundColor,
@@ -55,14 +57,11 @@ class _teacher_screenState extends State<teacher_screen> {
                             Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
+                                width: MediaQuery.of(context).size.width,
                                 height: 50,
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
@@ -70,7 +69,8 @@ class _teacher_screenState extends State<teacher_screen> {
                                         IconButton(
                                           icon: const Icon(
                                               Icons.keyboard_arrow_left,
-                                              size: 40, color: t5White),
+                                              size: 40,
+                                              color: t5White),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
@@ -81,7 +81,7 @@ class _teacher_screenState extends State<teacher_screen> {
                                       children: <Widget>[
                                         CircleAvatar(
                                           backgroundImage: cubit.profileImage !=
-                                              null
+                                                  null
                                               ? NetworkImage(cubit.profileImage)
                                               : NetworkImage(noImageAsset),
                                         ),
@@ -107,52 +107,52 @@ class _teacher_screenState extends State<teacher_screen> {
                               ),
                             ),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              width: MediaQuery.of(context).size.width,
                               transform:
-                              Matrix4.translationValues(0.0, 60.0, 0.0),
+                                  Matrix4.translationValues(0.0, 60.0, 0.0),
                               child: Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: white,
-                                      borderRadius:
-                                      const BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(26)),
                                       boxShadow: defaultBoxShadow()),
                                   child: Stack(
                                     alignment: Alignment.centerRight,
                                     children: <Widget>[
                                       TextField(
-                                          onChanged: (value){
-                                            setState((){
-                                              searchTeacher(value);
-                                               print(teachers);
-                                            });
+                                          onChanged: (value) {
+
+                                             // searchTeacher(_searchTextController!.text
+                                             //     .toLowerCase());
+
+                                            // setState((){
+                                            //
+                                            //
+                                            // });
                                           },
-                                          controller: _textEditingController,
+                                          controller: _searchTextController,
                                           decoration: InputDecoration(
                                               filled: true,
                                               fillColor: white,
                                               hintText: 'Recherche',
-                                              contentPadding: const EdgeInsets
-                                                  .only(
-                                                  left: 26.0,
-                                                  bottom: 8.0,
-                                                  right: 50.0),
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 26.0,
+                                                      bottom: 8.0,
+                                                      right: 50.0),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
                                                     color: white, width: 0.5),
                                                 borderRadius:
-                                                BorderRadius.circular(26),
+                                                    BorderRadius.circular(26),
                                               ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
                                                     color: white, width: 0.5),
                                                 borderRadius:
-                                                BorderRadius.circular(26),
+                                                    BorderRadius.circular(26),
                                               ))),
                                       GestureDetector(
                                         child: const Padding(
@@ -170,7 +170,7 @@ class _teacher_screenState extends State<teacher_screen> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                            itemCount: teachers.length,
+                            itemCount: cubit.allTeachers.length,
                             shrinkWrap: true,
                             padding: const EdgeInsets.all(8),
                             itemBuilder: (BuildContext context, int index) {
@@ -182,37 +182,35 @@ class _teacher_screenState extends State<teacher_screen> {
                                   onTap: () {
                                     toasty(
                                       context,
-                                     teachers[index]['email'],
+                                      "${cubit.allTeachers[index].email}",
                                     );
                                   },
                                   leading: ClipRRect(
                                     child: CachedNetworkImage(
                                       progressIndicatorBuilder: (context, url,
-                                          downloadProgress) =>
+                                              downloadProgress) =>
                                           CircularProgressIndicator(
                                               value: downloadProgress.progress),
                                       imageUrl:
-                                      "${teachers[index]['avatar']}" !=
-                                          ""
-                                          ? "${teachers[index]['avatar']}"
-                                          : noImageAsset,
-                                    ),
+                                          "${cubit.allTeachers[index].avatar}" !=''
 
+                                              ? "${cubit.allTeachers[index].avatar}"
+                                              : noImageAsset,
+                                    ),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
-                                  //  CircleAvatar(radius: 20, backgroundImage: CloudinaryImage(cubit.allteachers[index]['image'])),
+                                   // CircleAvatar(radius: 20, backgroundImage: CloudinaryImage(cubit.allteachers[index]['image'])),
                                   title: Text(
-                                    teachers[index]['name'] +
+                                    cubit.allTeachers[index].name +
                                         ' ' +
-                                        teachers[index]['LastName'],
+                                        cubit.allTeachers[index].LastName,
                                     style: boldTextStyle(),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   subtitle: Container(
                                     margin: EdgeInsets.only(top: 4),
-                                    child: Text(
-                                        teachers[index]['email']!,
+                                    child: Text(cubit.allTeachers[index].email!,
                                         style: secondaryTextStyle()),
                                   ),
 
@@ -224,7 +222,10 @@ class _teacher_screenState extends State<teacher_screen> {
                                   //     size: 14,
                                   //   ),
                                   // ),
-                                  trailing: Text("${cubit.allteachers[index]['grade']}",style: TextStyle(color: logosColors),),
+                                  trailing: Text(
+                                    "${cubit.allTeachers[index].grade}",
+                                    style: TextStyle(color: logosColors),
+                                  ),
                                 ),
                               );
                             },
@@ -237,29 +238,27 @@ class _teacher_screenState extends State<teacher_screen> {
               );
             }));
   }
-  void searchTeacher(String query) {
-    print('goo ');
-    final teachers = SchoolCubit().allteachers.where((element) =>element.contains(query)).toList();
 
-      // final lastnameLower = element.LastName.toLowerCase();
-      // final nameLower = element.name.toLowerCase();
-      // final emailLower = element.email?.toLowerCase();
-      // final gradeLower = element.grade?.toLowerCase();
-      // final searchLower = query.toLowerCase();
-      // print (lastnameLower);
-      // return emailLower!.contains(searchLower) ||
-      //     nameLower.contains(searchLower) ||
-      //     lastnameLower.contains(searchLower) ||
-      //     gradeLower.contains(searchLower);
-
-
-
-    setState(() {
-      this.query = query;
-      this.teachers = teachers;
-    });
-  }
-}
+//   void searchTeacher(String query) {
+//     print('search begin ');
+//
+//     final _teachersSearchedList = SchoolCubit().allTeachers.where((element) {
+//       final lastnameLower = element.LastName.toLowerCase();
+//       final nameLower = element.name.toLowerCase();
+//       final emailLower = element.email?.toLowerCase();
+//       final gradeLower = element.grade?.toLowerCase();
+//       final searchLower = query.toLowerCase();
+//       return emailLower!.contains(searchLower) ||
+//           nameLower.contains(searchLower) ||
+//           lastnameLower.contains(searchLower) ||
+//           gradeLower!.contains(searchLower);
+//     }).toList();
+//     setState(() {
+//       this.query = query;
+//       this.ListOfteachers = _teachersSearchedList;
+//     });
+//   }
+ }
 
 class _MyPainter extends CustomPainter {
   @override
@@ -282,4 +281,3 @@ class _MyPainter extends CustomPainter {
     return true;
   }
 }
-
