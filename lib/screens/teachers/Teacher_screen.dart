@@ -19,9 +19,12 @@ class teacher_screen extends StatefulWidget {
 
 class _teacher_screenState extends State<teacher_screen> {
   //List ListOfteachers = [];
- // String query = '';
+  // String query = '';
+  List<TeacherModel> teacher = [] ;
   @override
   void initState() {
+    var cubit = SchoolCubit.get(context);
+
     super.initState();
 
   }
@@ -34,11 +37,24 @@ class _teacher_screenState extends State<teacher_screen> {
           ..getTeachers()
           ..getUserData(),
         child: BlocConsumer<SchoolCubit, SchoolStates>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              var cubit = SchoolCubit.get(context);
+              if (state is TeacherLoadingDataSuccess) {
+                print('yeath');
+                print(cubit.searchedTeacher);
+                setState(() {
+                  teacher = cubit.allTeachers ;
+                });
+
+              }
+
+
+
+            },
             builder: (context, state) {
               var cubit = SchoolCubit.get(context);
-             // ListOfteachers=cubit.teachers;
-            //
+              // ListOfteachers=cubit.teachers;
+              //
               //  print('ok,$ListOfteachers');
               //  teachers=cubit.allteachers;
               return SafeArea(
@@ -61,7 +77,7 @@ class _teacher_screenState extends State<teacher_screen> {
                                 height: 50,
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
@@ -81,7 +97,7 @@ class _teacher_screenState extends State<teacher_screen> {
                                       children: <Widget>[
                                         CircleAvatar(
                                           backgroundImage: cubit.profileImage !=
-                                                  null
+                                              null
                                               ? NetworkImage(cubit.profileImage)
                                               : NetworkImage(noImageAsset),
                                         ),
@@ -109,7 +125,7 @@ class _teacher_screenState extends State<teacher_screen> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               transform:
-                                  Matrix4.translationValues(0.0, 60.0, 0.0),
+                              Matrix4.translationValues(0.0, 60.0, 0.0),
                               child: Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: Container(
@@ -123,36 +139,33 @@ class _teacher_screenState extends State<teacher_screen> {
                                     children: <Widget>[
                                       TextField(
                                           onChanged: (value) {
-
-                                             // searchTeacher(_searchTextController!.text
-                                             //     .toLowerCase());
-
-                                            // setState((){
-                                            //
-                                            //
-                                            // });
+                                            cubit.searchTeacher(value.toString());
+                                            setState(() {
+                                              teacher = cubit.searchedTeacher ;
+                                            });
                                           },
                                           controller: _searchTextController,
                                           decoration: InputDecoration(
+
                                               filled: true,
                                               fillColor: white,
                                               hintText: 'Recherche',
                                               contentPadding:
-                                                  const EdgeInsets.only(
-                                                      left: 26.0,
-                                                      bottom: 8.0,
-                                                      right: 50.0),
+                                              const EdgeInsets.only(
+                                                  left: 26.0,
+                                                  bottom: 8.0,
+                                                  right: 50.0),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
                                                     color: white, width: 0.5),
                                                 borderRadius:
-                                                    BorderRadius.circular(26),
+                                                BorderRadius.circular(26),
                                               ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
                                                     color: white, width: 0.5),
                                                 borderRadius:
-                                                    BorderRadius.circular(26),
+                                                BorderRadius.circular(26),
                                               ))),
                                       GestureDetector(
                                         child: const Padding(
@@ -170,7 +183,7 @@ class _teacher_screenState extends State<teacher_screen> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                            itemCount: cubit.allTeachers.length,
+                            itemCount: teacher.length,
                             shrinkWrap: true,
                             padding: const EdgeInsets.all(8),
                             itemBuilder: (BuildContext context, int index) {
@@ -182,35 +195,35 @@ class _teacher_screenState extends State<teacher_screen> {
                                   onTap: () {
                                     toasty(
                                       context,
-                                      "${cubit.allTeachers[index].email}",
+                                      "${teacher[index].email}",
                                     );
                                   },
                                   leading: ClipRRect(
                                     child: CachedNetworkImage(
                                       progressIndicatorBuilder: (context, url,
-                                              downloadProgress) =>
+                                          downloadProgress) =>
                                           CircularProgressIndicator(
                                               value: downloadProgress.progress),
                                       imageUrl:
-                                          "${cubit.allTeachers[index].avatar}" !=''
+                                      "${teacher[index].avatar}" !=''
 
-                                              ? "${cubit.allTeachers[index].avatar}"
-                                              : noImageAsset,
+                                          ? "${teacher[index].avatar}"
+                                          : noImageAsset,
                                     ),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
-                                   // CircleAvatar(radius: 20, backgroundImage: CloudinaryImage(cubit.allteachers[index]['image'])),
+                                  // CircleAvatar(radius: 20, backgroundImage: CloudinaryImage(cubit.allteachers[index]['image'])),
                                   title: Text(
-                                    cubit.allTeachers[index].name +
+                                    teacher[index].name +
                                         ' ' +
-                                        cubit.allTeachers[index].LastName,
+                                        teacher[index].LastName,
                                     style: boldTextStyle(),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   subtitle: Container(
                                     margin: EdgeInsets.only(top: 4),
-                                    child: Text(cubit.allTeachers[index].email!,
+                                    child: Text(teacher[index].email!,
                                         style: secondaryTextStyle()),
                                   ),
 
@@ -258,7 +271,7 @@ class _teacher_screenState extends State<teacher_screen> {
 //       this.ListOfteachers = _teachersSearchedList;
 //     });
 //   }
- }
+}
 
 class _MyPainter extends CustomPainter {
   @override

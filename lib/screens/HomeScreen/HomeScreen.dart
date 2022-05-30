@@ -33,7 +33,7 @@ class home_screen extends StatelessWidget {
                       children: [
                         ClipPath(
                           clipper:
-                              CustomShape(), // this is my own class which extendsCustomClipper
+                          CustomShape(), // this is my own class which extendsCustomClipper
                           child: Container(
                             color: logosColors,
                             width: double.infinity,
@@ -44,18 +44,18 @@ class home_screen extends StatelessWidget {
                                 children: [
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           CircleAvatar(
                                             backgroundImage: cubit
-                                                        .profileImage !=
-                                                    null
+                                                .profileImage !=
+                                                null
                                                 ? NetworkImage(
-                                                    cubit.profileImage)
+                                                cubit.profileImage)
                                                 : const NetworkImage(noImageAsset),
                                           ),
                                           const SizedBox(
@@ -68,7 +68,7 @@ class home_screen extends StatelessWidget {
                                                     .capitalizeFirstLetter(),
                                                 style: boldTextStyle(
                                                     fontFamily:
-                                                        fontFamilyBoldGlobal,
+                                                    fontFamilyBoldGlobal,
                                                     color: white),
                                               ).paddingOnly(bottom: 2),
                                             ],
@@ -138,16 +138,16 @@ class home_screen extends StatelessWidget {
                                                           assetActualitiesPng,
                                                           // color: logosColors,
                                                           width:
-                                                              size.width * 0.07,
+                                                          size.width * 0.07,
                                                         ),
                                                         const Text('Actualités',
                                                             style: TextStyle(
                                                                 fontSize: 19,
                                                                 fontFamily:
-                                                                    'Roboto',
+                                                                'Roboto',
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                                FontWeight
+                                                                    .bold)),
                                                       ],
                                                     ),
                                                     const SizedBox(
@@ -155,21 +155,21 @@ class home_screen extends StatelessWidget {
                                                     ),
                                                     const Padding(
                                                       padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 50),
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 50),
                                                       child: Text(
                                                           'Lorem ipsum dolor sit amet, consectetur \n adipiscing  '
-                                                          'dolor sit amet,em ipsum \n dolor sit amet, co olor sit amet, co\n sit amet, co olor',
+                                                              'dolor sit amet,em ipsum \n dolor sit amet, co olor sit amet, co\n sit amet, co olor',
                                                           maxLines: 4,
                                                           textAlign:
-                                                              TextAlign.center,
+                                                          TextAlign.center,
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               fontFamily:
-                                                                  'Roboto',
+                                                              'Roboto',
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
+                                                              FontWeight
+                                                                  .bold)),
                                                     ),
                                                   ],
                                                 ),
@@ -195,7 +195,7 @@ class home_screen extends StatelessWidget {
                             physics: const ScrollPhysics(),
                             itemCount: Assets.Cards.length,
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                            SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 16,
                               mainAxisSpacing: 16,
@@ -204,12 +204,19 @@ class home_screen extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => cubit
-                                            .Homescreens[cubit.currentIndex],
-                                      ));
+                                  Navigator.push(context,MaterialPageRoute(builder: (_){
+                                    return  BlocProvider.value(
+                                        value: context.read<SchoolCubit>(),
+                                        child: cubit
+                                            .Homescreens[cubit.currentIndex]);
+
+                                  }));
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) => cubit
+                                  //           .Homescreens[cubit.currentIndex],
+                                  //     ));
                                   cubit.changeCardIndex(index);
                                 },
                                 child: Container(
@@ -229,9 +236,9 @@ class home_screen extends StatelessWidget {
                                   child: Center(
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Row(
                                           children: [
@@ -250,7 +257,7 @@ class home_screen extends StatelessWidget {
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                     fontWeight:
-                                                        FontWeight.bold)),
+                                                    FontWeight.bold)),
                                           ],
                                         ),
                                       ],

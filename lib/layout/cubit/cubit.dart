@@ -579,10 +579,24 @@ class SchoolCubit extends Cubit<SchoolStates> {
         print(error.toString());
         emit(updateProfileAddinggDataError(error.toString()));
       });
-
+  }
+  List<TeacherModel> searchedTeacher = [];
+  void searchTeacher (String text) {
+    if (text.isEmpty){
+      searchedTeacher = allTeachers ;
+    }
+    searchedTeacher = allTeachers.where((teacher){
+      final searchText = text.toLowerCase();
+      final nameTeacher = teacher.name.toLowerCase();
+      final lastName = teacher.LastName.toLowerCase();
+      final grade = teacher.grade!.toLowerCase();
+      final email = teacher.email!.toLowerCase();
+      return nameTeacher.contains(searchText) || lastName.contains(searchText) || grade.contains(searchText) || email.contains(searchText);
+    }).toList();
+    print('the searched element is ');
+    print(searchedTeacher.toString());
 
   }
-
 
 }
 
