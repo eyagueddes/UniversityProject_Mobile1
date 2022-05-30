@@ -4,25 +4,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:university_project_mobile/screens/demands/addDemand.dart';
-
-import '../../components/curvedNavigationBar.dart';
+import 'package:university_project_mobile/helper/Navigation.dart';
+import 'package:university_project_mobile/layout/school_Layout.dart';
+import 'package:university_project_mobile/screens/HomeScreen/HomeScreen.dart';
+import 'package:university_project_mobile/screens/messages/Add_message.dart';
 import '../../components/styleWidget.dart';
-import '../../helper/Navigation.dart';
 import '../../layout/cubit/cubit.dart';
+
 import '../../layout/cubit/states.dart';
+import '../../shared/components/components.dart';
 import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import '../../utils/images.dart';
+import '../../utils/widgets.dart';
+import 'Details_messages.dart';
 
-class get_allDemands extends StatefulWidget {
-  const get_allDemands({Key? key}) : super(key: key);
+class get_allMessages extends StatefulWidget {
+  const get_allMessages({Key? key}) : super(key: key);
 
   @override
-  State<get_allDemands> createState() => _get_allDemandsState();
+  State<get_allMessages> createState() => _get_allMessagesState();
 }
 
-class _get_allDemandsState extends State<get_allDemands> {
+class _get_allMessagesState extends State<get_allMessages> {
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
   var image;
   @override
@@ -35,12 +39,12 @@ class _get_allDemandsState extends State<get_allDemands> {
     return BlocProvider(
       create: (BuildContext context) => SchoolCubit()
         ..getUserData()
-        ..getDemands(),
+        ..getMessages(),
       child: BlocConsumer<SchoolCubit, SchoolStates>(
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = SchoolCubit.get(context);
-            image=cubit.profileImage;
+            image = cubit.profileImage;
             late var width;
             width = MediaQuery.of(context).size.width;
             return Scaffold(
@@ -69,8 +73,8 @@ class _get_allDemandsState extends State<get_allDemands> {
                                     icon: Icon(Icons.keyboard_arrow_left,
                                         size: 40, color: t5White),
                                     onPressed: () {
-                                      finish(context);
-                                    },
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>school_Layout()));
+;                                    },
                                   ),
                                 ],
                               ),
@@ -98,7 +102,7 @@ class _get_allDemandsState extends State<get_allDemands> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                text('Demandes',
+                                text('Messages',
                                     textColor: appStore.textPrimaryColor,
                                     fontSize: textSizeLarge,
                                     fontFamily: fontBold),
@@ -108,20 +112,38 @@ class _get_allDemandsState extends State<get_allDemands> {
                           ),
                           ListView.builder(
                               scrollDirection: Axis.vertical,
-                              itemCount: cubit.allDemands.length,
+                              itemCount: cubit.allMessages.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 16, bottom: 16, right: 16),
-                                    decoration: boxDecoration(
-                                        radius: 10,
-                                        showShadow: true,
-                                        bgColor:
-                                            context.scaffoldBackgroundColor),
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
+                                  margin: const EdgeInsets.only(
+                                      left: 16, bottom: 16, right: 16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: shadowColor,
+                                        offset: Offset(5, 5),
+                                        blurRadius: 10.0,
+                                      ),
+                                    ],
+                                  ),
+                                  padding: const EdgeInsets.all(16),
+                                  child: Material(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  details_Messages(
+                                                      message: cubit
+                                                          .allMessages[index])),
+                                        );
+                                      },
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
@@ -132,7 +154,7 @@ class _get_allDemandsState extends State<get_allDemands> {
                                                   shape: BoxShape.circle,
                                                   gradient: LinearGradient(
                                                     colors: [
-                                                      Colors.white,
+                                                      gradGreen,
                                                       logosColors,
                                                     ],
                                                   ),
@@ -141,7 +163,9 @@ class _get_allDemandsState extends State<get_allDemands> {
                                                 height: width / 10,
                                                 padding: EdgeInsets.all(10),
                                                 child: SvgPicture.asset(
-                                                    assetDemands,color: white,),
+                                                  assetMessages,
+                                                  color: white,
+                                                ),
                                               ),
                                               SizedBox(width: 16),
                                               Column(
@@ -154,60 +178,56 @@ class _get_allDemandsState extends State<get_allDemands> {
                                                           style:
                                                               primaryTextStyle()),
                                                       text(
-                                                          cubit.allDemands[
-                                                              index]['subject'],
+                                                          cubit
+                                                              .allMessages[
+                                                                  index]
+                                                              .subject,
+                                                          maxLine: 1,
                                                           textColor: appStore
                                                               .textPrimaryColor,
                                                           fontSize:
                                                               textSizeSMedium),
                                                     ],
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      text(
-                                                          dateFormat.format(
-                                                              DateTime.parse(cubit
-                                                                      .allDemands[
-                                                                  index]['date'])),
-                                                          fontFamily: fontMedium,
-                                                          fontSize: textSizeSmall,
-                                                          textColor: logosColors),
-                                                      text(cubit.allDemands[index]['status'], textColor:cubit.allDemands[index]['status']=='En cours'? PendCOlor : cubit.allDemands[index]['status']=='Rejetée'? redColor: Colors.green, fontSize: textSizeMedium),
-
-                                                    ],
-                                                  )
+                                                  text(
+                                                      dateFormat.format(
+                                                          DateTime.parse(cubit
+                                                              .allMessages[
+                                                                  index]
+                                                              .date)),
+                                                      fontFamily: fontMedium,
+                                                      fontSize: textSizeSmall,
+                                                      textColor: logosColors),
                                                 ],
-                                              ),
+                                              )
                                             ],
                                           ),
-                                          const SizedBox(height: 12),
+                                          SizedBox(height: 16),
                                           Row(
                                             children: [
-                                              Text('Langue: ',
+                                              Text('Description: ',
                                                   style: primaryTextStyle()),
-                                              Text(
-                                                cubit.allDemands[index]
-                                                    ['langue'],
-                                                style: secondaryTextStyle(),
-                                                maxLines: 2,
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('Raison: ',
-                                                  style: primaryTextStyle()),
-                                              Text(
-                                                cubit.allDemands[index]
-                                                    ['raison'],
-                                                style: secondaryTextStyle(),
-                                                maxLines: 2,
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Text(
+                                                  cubit.allMessages[index].text,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: secondaryTextStyle(),
+                                                ),
                                               ),
                                             ],
                                           ),
                                           SizedBox(height: 16),
-                                        ]));
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
                               }),
                         ],
                       ),
@@ -215,11 +235,13 @@ class _get_allDemandsState extends State<get_allDemands> {
                   )
                 ],
               ),
-
             );
           }),
     );
   }
+
+// ignore: must_be_immutable
+
 }
 
 class _MyPainter extends CustomPainter {
@@ -252,6 +274,6 @@ Widget backIcon(BuildContext context, var color, var icon, var iconColor) {
               bgColor: color, radius: 10, color: white, showShadow: false),
           child: Icon(icon, color: iconColor))
       .onTap(() {
-    navigateAndFinish(context, add_demand());
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>add_message()));
   });
 }

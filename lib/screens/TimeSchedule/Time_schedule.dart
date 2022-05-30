@@ -1,54 +1,52 @@
-
 import 'dart:isolate';
 import 'dart:ui';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+
 import 'package:flutter_svg/svg.dart';
+import 'package:university_project_mobile/layout/cubit/cubit.dart';
 import 'package:university_project_mobile/layout/cubit/states.dart';
 import 'package:university_project_mobile/utils/images.dart';
-import '../../layout/cubit/cubit.dart';
 import '../../utils/colors.dart';
 import '../../utils/widgets.dart';
 
-import 'package:university_project_mobile/utils/colors.dart';
-
-class exam_calendar extends StatefulWidget {
-
+class time_schedule extends StatefulWidget {
+  const time_schedule({Key? key}) : super(key: key);
+  // static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
+  //   final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port')!;
+  //   send.send([id, status, progress]);
+  // }
   @override
-  State<exam_calendar> createState() => _exam_calendarState();
- 
+  State<time_schedule> createState() => _time_scheduleState();
 }
 
-class _exam_calendarState extends State<exam_calendar> {
-  ReceivePort _port = ReceivePort();
-  @override
+class _time_scheduleState extends State<time_schedule> {
+  var image;
   void initState() {
     super.initState();
-    IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
-      setState((){
-      });
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
   }
-
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
-
-  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
-    final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port')!;
-    send.send([id, status, progress]);
-  }
+  // ReceivePort _port = ReceivePort();
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
+  //   _port.listen((dynamic data) {
+  //     String id = data[0];
+  //     DownloadTaskStatus status = data[1];
+  //     int progress = data[2];
+  //
+  //   });
+  //
+  //   FlutterDownloader.registerCallback(time_schedule.downloadCallback);
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   IsolateNameServer.removePortNameMapping('downloader_send_port');
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +62,15 @@ class _exam_calendarState extends State<exam_calendar> {
     return BlocProvider(
         create: (BuildContext context) =>
         SchoolCubit()
-          ..getUserExamCalendar()..getUserData()..getUserExamCalendar(),
+          ..getUserTimeSchedule()..getUserData(),
         child: BlocConsumer<SchoolCubit, SchoolStates>(
             listener: (context, state) {},
             builder: (context, state) {
               var cubit = SchoolCubit.get(context);
+              image=cubit.profileImage;
+              print(image);
               return Scaffold(
-                backgroundColor: GWhite,
+                backgroundColor: context.scaffoldBackgroundColor,
                 body: Column(
                   children: <Widget>[
                     //header
@@ -95,7 +95,7 @@ class _exam_calendarState extends State<exam_calendar> {
                                     IconButton(
                                       icon: Icon(Icons.keyboard_arrow_left, size: 40, color: t5White),
                                       onPressed: () {
-                                        finish(context);
+                                        Navigator.pop(context);
                                       },
                                     ),
                                   ],
@@ -103,9 +103,8 @@ class _exam_calendarState extends State<exam_calendar> {
                                 Row(
                                   children: <Widget>[
                                     CircleAvatar(
-                                      backgroundImage:cubit.profileImage!=null? NetworkImage(cubit.profileImage):NetworkImage(noImageAsset),
+                                      backgroundImage:image!=null? NetworkImage(image):const NetworkImage(noImageAsset),
                                     ),
-
                                   ],
                                 ),
                               ],
@@ -125,7 +124,13 @@ class _exam_calendarState extends State<exam_calendar> {
                                     left: 16, bottom: 16, right: 16),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white),
+                                    color: Colors.white,  boxShadow: const [
+                                  BoxShadow(
+                                    color: shadowColor,
+                                    offset: Offset(5, 5),
+                                    blurRadius: 10.0,
+                                  ),
+                                ],),
                                 padding: EdgeInsets.all(16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +142,7 @@ class _exam_calendarState extends State<exam_calendar> {
                                             shape: BoxShape.circle,
                                             gradient: LinearGradient(
                                               colors: [
-                                                Colors.white,
+                                                gradGreen,
                                                 logosColors,
                                               ],
                                             ),
@@ -158,7 +163,7 @@ class _exam_calendarState extends State<exam_calendar> {
                                           CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              'Calendrier des examens',
+                                              'Emploi de temps',
                                               style: TextStyle(
                                                 color:
                                                 appStore.textPrimaryColor,
@@ -170,7 +175,7 @@ class _exam_calendarState extends State<exam_calendar> {
                                               height: height * 0.01,
                                             ),
                                             Text(
-                                              'Vous trouverez ci-joint le calendrier des examens.',
+                                              "Vous trouverez ci-joint l'Emploi de temps.",
                                               style: TextStyle(
                                                 color:
                                                 appStore.textPrimaryColor,
@@ -186,7 +191,7 @@ class _exam_calendarState extends State<exam_calendar> {
                                         textContent:
                                         'Télécharger'.toUpperCase(),
                                         onPressed: () {
-                                        cubit.downloadExamCalendar();
+                                          cubit.downloadTimeSchedule();
                                         }),
                                     // Text(
                                     //   '$progress',
@@ -206,7 +211,6 @@ class _exam_calendarState extends State<exam_calendar> {
             }));
   }
 }
-
 class _MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

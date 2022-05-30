@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,77 +32,28 @@ class _update_profileState extends State<update_profile>
   late File pickedImage;
   @override
   void initState() {
-    // TODO: implement initState
+    var cubit = SchoolCubit.get(context);
+    emailController.text =cubit.studentData!.email!;
+    phoneController.text = cubit.studentData!.phone!;
+    adressController.text = cubit.studentData!.adress!;
+    countryController.text = cubit.studentData!.country!;
+    governmentController.text = cubit.studentData!.government!;
     super.initState();
 
   }
 
   @override
   Widget build(BuildContext context) {
-    void displayAlertDialog1() {
-      showCupertinoDialog(
-        context: context,
-        builder: (BuildContext context) => Theme(
-          data: ThemeData.light(),
-          child: CupertinoAlertDialog(
-            actions: [
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 10),
-                        TransparentButton(
-                          iconData: Icons.add,
-                          title: "Importer une photo",
-                          radius: 8,
-                          onPressed: () {
-                            print("pressed");
-                            SchoolCubit.get(context)
-                                .getProfileImage(ImageSource.gallery);
-                              finish(context);
-
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        TransparentButton(
-                          iconData: Icons.camera_alt,
-                          title: "prendre une photo",
-                          radius: 8,
-                          onPressed: () {
-                            SchoolCubit.get(context)
-                                .getProfileImage(ImageSource.camera);
-                            finish(context);
-
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: Text(
-                            'Annuler',
-                            style: primaryTextStyle(color: black, size: 18),
-                          ),
-                          onPressed: () {
-                            finish(context);
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
     return  BlocConsumer<SchoolCubit, SchoolStates>(
-      buildWhen: (previous, current) => previous != current ,
+      //buildWhen: (previous, current) => previous != current ,
       listener: (context, state) {
+        if (state is SchoolUploadProfileImageCloudinarySuccessState){
+          print('Image modifié');
+          showToast(
+            text: 'Image modifié',
+            state: ToastStates.SUCCESS,
+          );
+        }
         if (state is updateProfileAddingDataSuccess){
           showToast(
             text: 'Mise a jour effectué avec succès',
@@ -118,11 +70,7 @@ class _update_profileState extends State<update_profile>
       builder: (context, state) {
         print('buileded');
         var cubit = SchoolCubit.get(context);
-        emailController.text =cubit.studentData!.email!;
-        phoneController.text = cubit.studentData!.phone!;
-        adressController.text = cubit.studentData!.adress!;
-        countryController.text = cubit.studentData!.country!;
-        governmentController.text = cubit.studentData!.government!;
+
         var profileImage = cubit.profileImage;
         print( emailController.text);
         print(profileImage);
@@ -178,23 +126,46 @@ class _update_profileState extends State<update_profile>
                           Stack(
                             alignment: AlignmentDirectional.bottomEnd,
                             children: [
+
                               CircleAvatar(
-                                radius: 64.0,
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                child: CircleAvatar(
-                                  radius: 60.0,
-                                  backgroundImage:
-                                  state is SchoolProfileImagePickedSuccessState ? Image.asset('${cubit.newProfileImage!.path}') as ImageProvider :  NetworkImage(profileImage),
+                                child: ClipOval(
+                                    child: CachedNetworkImage(
+
+                                      width:100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      imageUrl: context.watch<SchoolCubit>().imageUrlCloudinary != null ? "${ context.read<SchoolCubit>().imageUrlCloudinary}" : cubit.studentData!.avatar!
+                                      ,
+                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(value: downloadProgress.progress),
+                                      errorWidget: (context, url, error) => CircularProgressIndicator(),
+                                    )
                                 ),
+                                radius: 50,
                               ),
+                              // CircleAvatar(
+                              //   radius: 64.0,
+                              //   backgroundColor:
+                              //       Theme.of(context).scaffoldBackgroundColor,
+                              //   child: CircleAvatar(
+                              //     radius: 60.0,
+                              //     backgroundImage:
+                              //     cubit.imageUrlCloudinary != null  ?   CachedNetworkImage(
+                              //       fit: BoxFit.fill,
+                              //       imageUrl:"${cubit.imageUrlCloudinary}",
+                              //       progressIndicatorBuilder:(context,url,downloadProgress)=>CircularProgressIndicator(value:downloadProgress.progress),
+                              //
+                              //
+                              //     ):  Image.asset('${cubit.newProfileImage!.path}') as ImageProvider,
+                              //   ),
+                              // ),
                               cubit.newProfileImage != null ? Container(
-                                width: 42,
+                                  width: 42,
                                   height: 42,
                                   child: Image.file(pickedImage ,fit: BoxFit.cover,)) : SizedBox.shrink(),
                               IconButton(
                                 onPressed: () {
-                                    displayAlertDialog1();
+                                  displayAlertDialog1(context);
                                 },
                                 icon: const CircleAvatar(
                                   radius: 20.0,
@@ -222,7 +193,8 @@ class _update_profileState extends State<update_profile>
                                   defaultButton(
                                     text: 'upload profile image',
                                     onPressed: () {
-                                      cubit.uploadImage(cubit.newProfileImage);
+
+                                      //cubit.uploadImage(cubit.newProfileImage);
                                     },
                                   ),
                                   if (state is SchoolUserUpdateLoadingState)
@@ -242,19 +214,19 @@ class _update_profileState extends State<update_profile>
                     Column(
                       children: [
 
-                          Text(
-                            "Nom et prénom : ${context.watch<SchoolCubit>().studentData?.name} ${context.watch<SchoolCubit>().studentData?.LastName}",
-                            style: boldTextStyle(
-                                fontFamily: fontFamilyBoldGlobal),
-                          ).paddingOnly(bottom: 2),
+                        Text(
+                          "Nom et prénom : ${context.watch<SchoolCubit>().studentData?.name} ${context.watch<SchoolCubit>().studentData?.LastName}",
+                          style: boldTextStyle(
+                              fontFamily: fontFamilyBoldGlobal),
+                        ).paddingOnly(bottom: 2),
 
 
-                            Text(
-                            "Classe : ${context.watch<SchoolCubit>().studentData?.classe}",
-                            style: secondaryTextStyle(
-                                color: logosColors,
-                                fontFamily: fontFamilyBoldGlobal),
-                          ).paddingOnly(bottom: 16),
+                        Text(
+                          "Classe : ${context.watch<SchoolCubit>().studentData?.classe}",
+                          style: secondaryTextStyle(
+                              color: logosColors,
+                              fontFamily: fontFamilyBoldGlobal),
+                        ).paddingOnly(bottom: 16),
 
                         FormFieldText(
                           controller: emailController,
@@ -341,22 +313,27 @@ class _update_profileState extends State<update_profile>
                           controller: passwordController,
                           type: TextInputType.text,
                           validate: (value) {
-                          //   if (value!.isEmpty) {
-                          //     return 'phone number must not be empty';
-                          //   }
-                          //   return null;
-                           },
+                            //   if (value!.isEmpty) {
+                            //     return 'phone number must not be empty';
+                            //   }
+                            //   return null;
+                          },
                           label: 'mot de passe',
                           prefix: Icons.lock,
                         ),
                         SizedBox(
                           width: double.infinity,
                           height: 70.0,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 30.0, 10, 0),
-                            child: defaultButton(
-                              onPressed: () async {
+                          child: BlocProvider<SchoolCubit>(
+                            create: (context) => SchoolCubit(),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 30.0, 10, 0),
+                              child: defaultButton(
+                                onPressed: () async {
+                                  print('the url is');
+                                  print(context.read<SchoolCubit>().imageUrlCloudinary);
                                   await cubit.updateProfile(
+                                    //avatar: context.read<SchoolCubit>().imageUrlCloudinary,
                                     phone: phoneController.text,
                                     password: passwordController.text,
                                     government: governmentController.text,
@@ -364,8 +341,9 @@ class _update_profileState extends State<update_profile>
                                     email: emailController.text,
                                     adress: adressController.text,
                                   );
-                              },
-                              text: 'Mettre à jour',
+                                },
+                                text: 'Mettre à jour',
+                              ),
                             ),
                           ),
                         ),
@@ -383,6 +361,69 @@ class _update_profileState extends State<update_profile>
   }
 }
 
+
+void displayAlertDialog1(context) {
+  showCupertinoDialog(
+    context: context,
+    builder: (BuildContext context) => Theme(
+      data: ThemeData.light(),
+      child: CupertinoAlertDialog(
+        actions: [
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    TransparentButton(
+                      iconData: Icons.add,
+                      title: "Importer une photo",
+                      radius: 8,
+                      onPressed: () {
+                        print("pressed");
+                        SchoolCubit.get(context)
+                            .getProfileImage(ImageSource.gallery);
+                        finish(context);
+
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TransparentButton(
+                      iconData: Icons.camera_alt,
+                      title: "prendre une photo",
+                      radius: 8,
+                      onPressed: () {
+                        SchoolCubit.get(context)
+                            .getProfileImage(ImageSource.camera);
+                        finish(context);
+
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: Text(
+                        'Annuler',
+                        style: primaryTextStyle(color: black, size: 18),
+                      ),
+                      onPressed: () {
+                        finish(context);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+
 class TransparentButton extends StatelessWidget {
   final String title;
   final Function()? onPressed;
@@ -390,9 +431,9 @@ class TransparentButton extends StatelessWidget {
   final IconData iconData;
   const TransparentButton(
       {required this.title,
-      this.onPressed,
-      required this.radius,
-      required this.iconData});
+        this.onPressed,
+        required this.radius,
+        required this.iconData});
 
   @override
   Widget build(BuildContext context) {

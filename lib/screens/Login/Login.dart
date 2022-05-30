@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:university_project_mobile/helper/Navigation.dart';
 import 'package:university_project_mobile/helper/network/dioHelper.dart';
 import 'package:university_project_mobile/layout/cubit/cubit.dart';
 import 'package:university_project_mobile/layout/cubit/states.dart';
@@ -11,7 +12,7 @@ import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../layout/school_Layout.dart';
-import '../HomeScreen/homeScreen.dart';
+import '../HomeScreen/HomeScreen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -46,10 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
               text: 'Connecté avec succès',
               state: ToastStates.SUCCESS,
             );
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => school_Layout()));
+            navigateAndFinish(context, school_Layout());
+
           }
           if (state is LoginErrorState) {
             showToast(

@@ -20,6 +20,7 @@ Widget text(
       var latterSpacing = 0.5,
       bool textAllCaps = false,
       var isLongText = false,
+      final TextOverflow? overflow,
       bool lineThrough = false,
     }) {
   return Text(

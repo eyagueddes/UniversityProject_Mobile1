@@ -61,7 +61,7 @@ class _State extends State<add_demand> {
         }, builder: (context, state) {
           var cubit = SchoolCubit.get(context);
           return Scaffold(
-            backgroundColor: GWhite,
+            backgroundColor: context.scaffoldBackgroundColor,
             body: Column(
               children: <Widget>[
                 //header
@@ -87,7 +87,9 @@ class _State extends State<add_demand> {
                                   icon: Icon(Icons.keyboard_arrow_left,
                                       size: 40, color: t5White),
                                   onPressed: () {
-                                    finish(context);
+                                    Navigator.pop(context);
+                                    print('ok');
+                                   // finish(context);
                                   },
                                 ),
                               ],
@@ -154,41 +156,53 @@ class _State extends State<add_demand> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  spreadRadius: -10.0,
+                                                  blurRadius: 10.0,
+                                                  offset: Offset(0.0, 0.0),
+                                                ),
+                                              ],
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
-                                            child: DropdownButtonHideUnderline(
-                                              child: ButtonTheme(
-                                                alignedDropdown: true,
-                                                child: DropdownButtonFormField(
-                                                  decoration:
-                                                      const InputDecoration(
-                                                          border:
-                                                              InputBorder.none),
-                                                  menuMaxHeight: 200,
-                                                  itemHeight: 50,
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      _selected = newValue!;
-                                                      subjectController.text =
-                                                          newValue;
-                                                      print(
-                                                          '  subjectController,${subjectController.text}');
-                                                    });
-                                                  },
-                                                  hint: Text(
-                                                      'Choisir une demande'),
-                                                  items: cubit.Demands.map<
-                                                          DropdownMenuItem<
-                                                              String>>(
-                                                      (String value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
+                                            child: Material(
+                                              elevation: 5,
+                                              shadowColor: Colors.grey[100],
+                                              child: DropdownButtonHideUnderline(
+                                                child: ButtonTheme(
+                                                  alignedDropdown: true,
+                                                  child: DropdownButtonFormField(
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            border:
+                                                                InputBorder.none),
+                                                    menuMaxHeight: 200,
+                                                    itemHeight: 50,
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        _selected = newValue!;
+                                                        subjectController.text =
+                                                            newValue;
+                                                        print(
+                                                            '  subjectController,${subjectController.text}');
+                                                      });
+                                                    },
+                                                    hint: const Text(
+                                                        'Choisir une demande'),
+                                                    items: cubit.Demands.map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -210,22 +224,27 @@ class _State extends State<add_demand> {
                                                   .size
                                                   .width *
                                               0.85,
-                                          child: DefaultFormField(
-                                            maxLine: 3,
-                                            prefix: assetMessages,
-                                            controller: raisonController,
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Veuillez saisir ce champ';
-                                              }
-                                            },
-                                            label: "",
-                                            keyboardType: TextInputType.multiline,
+                                            child: Material(
+                                              elevation: 5,
+                                              shadowColor: Colors.grey[100],
+                                              child: DefaultFormField(
+                                                maxLine: 3,
+                                                prefix: assetMessages,
+                                                controller: raisonController,
+                                                validation: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Veuillez saisir ce champ';
+                                                  }
+                                                },
+                                                label: "",
+                                                keyboardType: TextInputType.multiline,
+
                                           ),
+                                            ),
                                         ),
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(height: 12),
                                       Text(
                                         'Numéro de téléphone: ',
                                         style: GoogleFonts.inter(
@@ -240,19 +259,24 @@ class _State extends State<add_demand> {
                                                   .size
                                                   .width *
                                               0.85,
-                                          child: DefaultFormField(
-                                            controller: phoneController,
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Veuillez saisir ce champ';
-                                              }
-                                            },
-                                            label: "",
-                                            keyboardType: TextInputType.number,
+                                          child: Material(
+                                            elevation: 5,
+                                            shadowColor: Colors.grey[100],
+                                            child: DefaultFormField(
+                                              controller: phoneController,
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Veuillez saisir ce champ';
+                                                }
+                                              },
+                                              label: "",
+                                              keyboardType: TextInputType.number,
+                                            ),
                                           ),
                                         ),
                                       ),
+                                      SizedBox(height: 12),
                                       Text(
                                         'Langue ',
                                         style: GoogleFonts.inter(
@@ -267,16 +291,20 @@ class _State extends State<add_demand> {
                                                   .size
                                                   .width *
                                               0.85,
-                                          child: DefaultFormField(
-                                            controller: languageController,
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Veuillez saisir ce champ';
-                                              }
-                                            },
-                                            label: "",
-                                            keyboardType: TextInputType.text,
+                                          child: Material(
+                                            elevation: 5,
+                                            shadowColor: Colors.grey[100],
+                                            child: DefaultFormField(
+                                              controller: languageController,
+                                               validation: (value) {
+                                              //   if (value == null ||
+                                              //       value.isEmpty) {
+                                              //     return 'Veuillez saisir ce champ';
+                                              //   }
+                                              },
+                                              label: "",
+                                              keyboardType: TextInputType.text,
+                                            ),
                                           ),
                                         ),
                                       ),

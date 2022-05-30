@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,28 +14,29 @@ import 'package:university_project_mobile/layout/cubit/states.dart';
 import 'package:university_project_mobile/models/Messages.dart';
 import 'package:university_project_mobile/models/demands.dart';
 import 'package:university_project_mobile/models/student.dart';
-import 'package:university_project_mobile/screens/TimeSchedule/time_schedule.dart';
-import 'package:university_project_mobile/screens/actualities/actualities.dart';
-import 'package:university_project_mobile/screens/demands/all_demands.dart';
-import 'package:university_project_mobile/screens/messages/allMessages.dart';
+import 'package:university_project_mobile/screens/TimeSchedule/Time_schedule.dart';
+import 'package:university_project_mobile/screens/actualities/Actualities.dart';
+import 'package:university_project_mobile/screens/demands/All_demands.dart';
+import 'package:university_project_mobile/screens/messages/All_Messages.dart';
 import '../../helper/cache_helper.dart';
 import '../../helper/network/dioHelper.dart';
 import '../../models/actualities.dart';
 import '../../models/marks.dart';
 import '../../models/notices.dart';
 import '../../models/teacher.dart';
-import '../../screens/HomeScreen/homeScreen.dart';
-import '../../screens/Notices/notices.dart';
-import '../../screens/Profile/profile.dart';
+import '../../screens/HomeScreen/HomeScreen.dart';
+import '../../screens/Notices/Notices.dart';
+import '../../screens/Profile/Profile.dart';
 import '../../../models/student.dart';
-import '../../screens/ResultDeliberation/resultDeliberation.dart';
-import '../../screens/StudyPlan/study_plan.dart';
-import '../../screens/demands/addDemand.dart';
-import '../../screens/examCalendar/exam_calendar.dart';
-import '../../screens/messages/add_message.dart';
-import '../../screens/teachers/teacher_screen.dart';
-import '../../screens/TimeSchedule/time_schedule.dart';
-import '../../screens/updateProfile/update_profile.dart';
+import '../../screens/ResultDeliberation/Result_Deliberation.dart';
+import '../../screens/StudyPlan/Study_plan.dart';
+import '../../screens/demands/Add_Demand.dart';
+import '../../screens/examCalendar/Exam_calendar.dart';
+import '../../screens/messages/Add_message.dart';
+import '../../screens/teachers/Teacher_screen.dart';
+import '../../screens/TimeSchedule/Time_schedule.dart';
+import '../../screens/updateProfile/Update_pro.dart';
+import '../../screens/updateProfile/Update_profile.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SchoolCubit extends Cubit<SchoolStates> {
@@ -46,7 +48,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
   List<Widget> screens = [
     const home_screen(),
     profile_screen(),
-    update_profile(),
+    UpdatePro(),
 
   ];
 
@@ -128,26 +130,6 @@ class SchoolCubit extends Cubit<SchoolStates> {
     });
   }
 
-  List<dynamic> allActualities = [];
-  ActualityModel? actualityModel;
-
-  Future<void> getActualities() async {
-    emit(LoadingActualitiesDataState());
-    DioHelper.getData(
-      url: 'api/news/actuality/all',
-    ).then((value) {
-      print('Actualities ,$value');
-      allActualities = value.data;
-      allActualities.map((e) =>
-      actualityModel = ActualityModel.fromJson(e));
-      print(allActualities.length);
-      print(allActualities[0]['_id']);
-      emit(ActualitiesLoadingDataSuccess());
-    }).catchError((error) async {
-      print(error.toString());
-      emit(ActualitiesLoadingDataError(error.toString()));
-    });
-  }
 
   final Demands = [
     'Attestation de présence',
@@ -399,32 +381,32 @@ class SchoolCubit extends Cubit<SchoolStates> {
       print('Permission Denied');
     }
   }
+  List<ActualityModel> allActualities = [];
+  ActualityModel? actualityModel;
 
-
-  DemandModel? demandModel;
-  List<dynamic> allDemands = [];
-  Future<void> getDemands() async {
-    emit(DemandsLoadingDataState());
-    print('recherche en cours');
-    final token = CacheHelper.getData(key: "token");
-    print('token,$token');
+  Future<void> getActualities() async {
+    emit(LoadingActualitiesDataState());
     DioHelper.getData(
-        url: 'api/studentDocuments/demands',
-        token: CacheHelper.getData(key: 'token')).then((value) {
-      print('demands ,${value}');
-      allDemands=value.data;
-      allDemands.map((e) =>
-      demandModel = DemandModel.fromJson(e));
-        print(allDemands.length);
-      print(allDemands[0]['langue']);
-      emit(DemandsLoadingDataSuccess(demandModel));
+      url: 'api/news/actuality/all',
+    ).then((value) {
+      print('Actualities ,$value');
+      List actualities=value.data;
+      print(actualities);
+      //  allActualities = value.data;
+      allActualities = actualities.map((e) {
+        return ActualityModel.fromJson(e);
+      }).toList();
+      emit(ActualitiesLoadingDataSuccess());
+
     }).catchError((error) async {
       print(error.toString());
-      emit(DemandsLoadingDataError(error.toString()));
+      emit(ActualitiesLoadingDataError(error.toString()));
     });
   }
+
+
   MessageModel? messageModel;
-  List<dynamic> allMessages = [];
+  List<MessageModel>  allMessages = [];
   Future<void> getMessages() async {
     print('recherche en cours');
     emit(MessagesLoadingDataState());
@@ -434,12 +416,10 @@ class SchoolCubit extends Cubit<SchoolStates> {
         url: 'api/studentDocuments/messages',
         token: CacheHelper.getData(key: 'token')).then((value) {
       print('messages ,${value}');
-      allMessages=value.data;
-      allMessages.map((e) =>
-      messageModel = MessageModel.fromJson(e));
-      print(allMessages.length);
-      print(allMessages[0]['_id']);
-      print(allMessages[0]['subject']);
+      List messages=value.data;
+      print('msg ,$messages');
+      allMessages=messages.map((e) =>
+      messageModel = MessageModel.fromJson(e)).toList();
       emit(MessagesLoadingDataSuccess(messageModel));
     }).catchError((error) async {
       print(error.toString());
@@ -447,8 +427,29 @@ class SchoolCubit extends Cubit<SchoolStates> {
     });
   }
 
+  DemandModel? demandModel;
+  List<DemandModel> allDemands=[];
+  Future<void> getDemands() async {
+    emit(DemandsLoadingDataState());
+    print('recherche en cours');
+    final token = CacheHelper.getData(key: "token");
+    print('token,$token');
+    DioHelper.getData(
+        url: 'api/studentDocuments/demands',
+        token: CacheHelper.getData(key: 'token')).then((value) {
+      print('demands ,${value}');
+      List demands=value.data;
+      allDemands=demands.map((e) =>
+      demandModel = DemandModel.fromJson(e)).toList();
+      emit(DemandsLoadingDataSuccess(demandModel));
+    }).catchError((error) async {
+      print(error.toString());
+      emit(DemandsLoadingDataError(error.toString()));
+    });
+  }
+
   NoticeModel? noticeModel;
-  List<dynamic> allNotices= [];
+  List<NoticeModel> allNotices= [];
   Future<void> getNotices() async {
     emit(LoadingNoticesDataState());
     print('recherche en cours');
@@ -457,9 +458,9 @@ class SchoolCubit extends Cubit<SchoolStates> {
         url: 'api/studentDocuments/notices',
         token:  CacheHelper.getData(key: 'token')).then((value) {
       print('Notices ,$value');
-      allNotices=value.data;
-      allNotices.map((e) =>
-      noticeModel =  NoticeModel.fromJson(e));
+      List notices=value.data;
+      allNotices=notices.map((e) =>
+      noticeModel =  NoticeModel.fromJson(e)).toList();
       emit(NoticesLoadingDataSuccess());
     }).catchError((error) async {
       print(error.toString());
@@ -493,6 +494,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
       newProfileImage = await _picker.pickImage(source: source) ;
       if (newProfileImage != null) {
        // uploadImage (newProfileImage);
+        uploadImageCloudinary(newProfileImage!.path);
         print(newProfileImage!.path);
         emit(SchoolProfileImagePickedSuccessState());
       }else {
@@ -503,6 +505,29 @@ class SchoolCubit extends Cubit<SchoolStates> {
       emit(SchoolProfileImagePickedErrorState(error: error.toString()));
     }
   }
+
+  String? imageUrlCloudinary;
+  void uploadImageCloudinary (String path)  async{
+    imageUrlCloudinary = '';
+    emit(SchoolUploadProfileImageCloudinaryLoadingState());
+    final cloudinary = CloudinaryPublic('dmbpqddpn', 'ml_default', cache: false);
+
+    await cloudinary.uploadFile(
+      CloudinaryFile.fromFile(path, resourceType: CloudinaryResourceType.Image),
+    ).then((response) {
+      imageUrlCloudinary = response.secureUrl;
+      print('the uploaded file');
+      print(response.secureUrl);
+      emit(SchoolUploadProfileImageCloudinarySuccessState());
+    }).catchError((err){
+      print(err.message);
+      print(err.request);
+      emit(SchoolUploadProfileImageCloudinaryErrorState());
+    });
+
+  }
+
+
 
   Future<void> uploadImage (file) async {
     print('goo');
@@ -530,7 +555,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
   }
 
   Future <void> updateProfile(
-      { String? government,  String? password, String? email, String? country, String? phone,String? adress}) async {
+      { String? government,  String? password, String? email, String? country, String? phone,String? adress,String? avatar}) async {
     print('update now');
     emit(updateProfileAddingDataLoadingState());
     final token = CacheHelper.getData(key: "token");
@@ -542,7 +567,8 @@ class SchoolCubit extends Cubit<SchoolStates> {
         'country': country,
         'phone': phone,
         'adress': adress,
-        'password': password
+        'password': password,
+      'avatar':avatar
       },
       ).then((value) {
         print(value);

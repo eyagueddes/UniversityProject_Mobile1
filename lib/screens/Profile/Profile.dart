@@ -6,17 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:flutter/widgets.dart';
-import 'package:university_project_mobile/screens/HomeScreen/homeScreen.dart';
+import 'package:university_project_mobile/screens/HomeScreen/HomeScreen.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import '../../components/activityIndicator.dart';
 import '../../components/styleWidget.dart';
+import '../../layout/cubit/states.dart';
 import '../../utils/colors.dart';
 import 'package:university_project_mobile/layout/cubit/cubit.dart';
 import '../../utils/constants.dart';
 import 'package:cloudinary_sdk/cloudinary_sdk.dart';
 import 'package:intl/intl.dart';
 
-import '../updateProfile/update_profile.dart';
+import '../updateProfile/Update_profile.dart';
 class profile_screen extends StatefulWidget {
   const profile_screen({Key? key}) : super(key: key);
 
@@ -26,20 +27,27 @@ class profile_screen extends StatefulWidget {
 class _profile_screenState extends State<profile_screen> {
   double? width;
 
+
   @override
   void initState() {
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (BuildContext context) => SchoolCubit()..getUserData(),
+   child:  BlocConsumer<SchoolCubit, SchoolStates>(
+        listener: (context, state) {},
+    builder: (context, state) {
+      width = MediaQuery.of(context).size.width;
+    var cubit = SchoolCubit.get(context);
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
     // changeStatusColor(t5DarkNavy);
-    width = MediaQuery.of(context).size.width;
-    final cloudinaryImage = CloudinaryImage("${context.watch<SchoolCubit>().studentData?.avatar}");
-    String transformedUrl = cloudinaryImage.toString();
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-    DateTime dt=  DateTime.parse("${context.watch<SchoolCubit>().studentData?.dateBirth}");
-    return Scaffold(
-      backgroundColor: t5LayoutBackgroundWhite,
+    // final cloudinaryImage = CloudinaryImage("${context.read<SchoolCubit>().studentData?.avatar}");
+    // String transformedUrl = cloudinaryImage.toString();
+  //  DateTime dt=  DateTime.parse("${context.watch<SchoolCubit>().studentData?.dateBirth}");
+  return state is SchoolLoadingUserDataState ? Center(child: CircularProgressIndicator()) : Scaffold(
+     // backgroundColor: t5LayoutBackgroundWhite,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -59,37 +67,41 @@ class _profile_screenState extends State<profile_screen> {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.keyboard_arrow_left, size: 40, color: t5White),
-                      onPressed: (){
-                        Navigator.pop(context);
-                      },
-                    ),
-                    text("PROFILE",
-                        textColor: t5White,
-                        fontSize: textSizeNormal,
-                        fontFamily: fontBold),
+                    // IconButton(
+                    //   icon: Icon(Icons.keyboard_arrow_left, size: 40, color: t5White),
+                    //   onPressed: (){
+                    //     Navigator.pop(context);
+                    //   },
+                    // ),
+                    //SizedBox(width:MediaQuery.of(context).size.width*0.18),
 
-                    Padding(
-                      padding: EdgeInsets.only(right: 16.0),
-                       child: Container(
-                         width: 28,
-                         height: 28,
-                         child: FloatingActionButton(
-                           onPressed: () {
-                             print('pressed');
-                             Navigator.push(
-                                 context,
-                                 MaterialPageRoute(
-                                     builder: (context) => update_profile()));
-                           },
-                           child: Icon(Icons.edit, color: t2TextColorPrimary),
-                           backgroundColor: t2_white,
-                         ),
-                       ),
+                    Center(
+                      child: text("PROFILE",
+                          textColor: t5White,
+                          fontSize: textSizeLarge,
+                          fontFamily: fontBold),
                     ),
+                    //Spacer(),
+                    // Padding(
+                    //   padding: EdgeInsets.only(right: 16.0),
+                    //    child: Container(
+                    //      width: 28,
+                    //      height: 28,
+                    //      child: FloatingActionButton(
+                    //        onPressed: () {
+                    //          print('pressed');
+                    //          Navigator.push(
+                    //              context,
+                    //              MaterialPageRoute(
+                    //                  builder: (context) => update_profile()));
+                    //        },
+                    //        child: Icon(Icons.edit, color: t2TextColorPrimary),
+                    //        backgroundColor: t2_white,
+                    //      ),
+                    //    ),
+                    // ),
 
                   ],
                 ),
@@ -104,7 +116,7 @@ class _profile_screenState extends State<profile_screen> {
                     margin: EdgeInsets.only(top: 50),
                     padding: EdgeInsets.only(top: 60),
                     alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: t5LayoutBackgroundWhite,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(24),
@@ -155,7 +167,7 @@ class _profile_screenState extends State<profile_screen> {
                                 Row(
                                   children: [
                                     profileText('Genre :',maxline: 2),
-                               //     if(SchoolCubit().studentData?.gender !=null)
+                                    if(SchoolCubit().studentData?.gender !=null.toString())
                                     text("${context.watch<SchoolCubit>().studentData?.gender}", fontSize: TtextSize),
                                   ],
                                 ),
@@ -167,7 +179,7 @@ class _profile_screenState extends State<profile_screen> {
                                 Row(
                                   children: [
                                     profileText('email :' , maxline: 2),
-                                 //   if(SchoolCubit().studentData?.email != "null")
+                                   if(SchoolCubit().studentData?.email != null.toString())
                                       text("${context.watch<SchoolCubit>().studentData?.email}", fontSize: TtextSize),
                                   ],
                                 ),
@@ -179,8 +191,8 @@ class _profile_screenState extends State<profile_screen> {
                                 Row(
                                   children: [
                                     profileText('Date de naissance :', maxline: 2),
-                                 // if(SchoolCubit().studentData?.dateBirth !=null)
-                                      text(dateFormat.format(dt), fontSize: TtextSize),
+                                  if(SchoolCubit().studentData?.dateBirth !=null.toString())
+                                      text(dateFormat.format(DateTime.parse("${context.read<SchoolCubit>().studentData?.dateBirth}")), fontSize: TtextSize),
                                   ],
                                 ),
                                 Padding(
@@ -192,6 +204,7 @@ class _profile_screenState extends State<profile_screen> {
                                   children: [
 
                                     profileText('Numéro de Télephone :',maxline: 2),
+                                    if(SchoolCubit().studentData?.phone !=null.toString())
                                     text("${context.watch<SchoolCubit>().studentData?.phone}", fontSize: TtextSize),
                                   ],
                                 ),
@@ -207,6 +220,7 @@ class _profile_screenState extends State<profile_screen> {
                                     Row(
                                       children: [
                                         profileText('pays :',maxline: 2),
+                                        if(SchoolCubit().studentData?.country !=null.toString())
                                         text("${context.watch<SchoolCubit>().studentData?.country}", fontSize: TtextSize),
                                       ],
                                     ),
@@ -223,6 +237,7 @@ class _profile_screenState extends State<profile_screen> {
                                 Row(
                                   children: [
                                     profileText('Gouvernement :',maxline: 2),
+                                    if(SchoolCubit().studentData?.government !=null.toString())
                                     text("${context.watch<SchoolCubit>().studentData?.government}", fontSize: TtextSize),
                                   ],
                                 ),
@@ -235,6 +250,7 @@ class _profile_screenState extends State<profile_screen> {
                                 Row(
                                   children: [
                                     profileText('Adresse :',maxline: 2),
+                                    if(SchoolCubit().studentData?.adress !=null.toString())
                                     text("${context.watch<SchoolCubit>().studentData?.adress}", fontSize: TtextSize),
                                   ],
                                 ),
@@ -276,15 +292,19 @@ class _profile_screenState extends State<profile_screen> {
                           ),
                         ),
                         SizedBox(height: 16),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(right: 16.0),
                           //  child: SvgPicture.asset(t5_options, width: 25, height: 25, color: t5White),
                         ),
                       ],
                     ),
                   ),
-                  CircleAvatar(backgroundImage: transformedUrl!=""?
-                  CachedNetworkImageProvider(transformedUrl):CachedNetworkImageProvider(noImageAsset) , radius: 50),
+                  CircleAvatar(backgroundImage: cubit
+                      .profileImage !=
+                  null
+                  ? NetworkImage(
+                  cubit.profileImage)
+              : NetworkImage(noImageAsset) , radius: 50),
                   //  CircleAvatar(backgroundImage: CachedNetworkImageProvider(t5_profile_8), radius: 50)
                 ],
               ),
@@ -292,6 +312,8 @@ class _profile_screenState extends State<profile_screen> {
           ],
         ),
       ),
+    );
+    }),
     );
   }
 }

@@ -1,54 +1,31 @@
-import 'dart:isolate';
-import 'dart:ui';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:flutter_svg/svg.dart';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:university_project_mobile/layout/cubit/cubit.dart';
-import 'package:university_project_mobile/layout/cubit/states.dart';
+import 'package:university_project_mobile/models/marks.dart';
+
+import '../../layout/cubit/states.dart';
 import '../../utils/colors.dart';
 import '../../utils/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:university_project_mobile/utils/images.dart';
+import 'package:nb_utils/nb_utils.dart';
 
-class study_plan extends StatefulWidget {
-  const study_plan({Key? key}) : super(key: key);
+class result_Deliberation extends StatefulWidget {
+  const result_Deliberation({Key? key}) : super(key: key);
 
   @override
-  State<study_plan> createState() => _study_planState();
+  State<result_Deliberation> createState() => _result_DeliberationState();
 }
 
-class _study_planState extends State<study_plan> {
-  ReceivePort _port = ReceivePort();
-  @override
-  void initState() {
-    super.initState();
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
-      setState(() {});
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
-  }
-
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
-
-  static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port')!;
-    send.send([id, status, progress]);
-  }
+class _result_DeliberationState extends State<result_Deliberation> {
+  //@override
+  // void initState() {
+  //   ResultDeliberationCubit.get(context).getResultDeliberation();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +33,14 @@ class _study_planState extends State<study_plan> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return BlocProvider(
-        create: (BuildContext context) => SchoolCubit()..getUserStudyPlan()..getUserData(),
+        create: (BuildContext context) =>
+            SchoolCubit()..getResultDeliberation()..getUserData(),
         child: BlocConsumer<SchoolCubit, SchoolStates>(
             listener: (context, state) {},
             builder: (context, state) {
               var cubit = SchoolCubit.get(context);
               return Scaffold(
-                backgroundColor: GWhite,
+                backgroundColor: context.scaffoldBackgroundColor,
                 body: Column(
                   children: <Widget>[
                     //header
@@ -88,7 +66,7 @@ class _study_planState extends State<study_plan> {
                                       icon: Icon(Icons.keyboard_arrow_left,
                                           size: 40, color: t5White),
                                       onPressed: () {
-                                        finish(context);
+                                      Navigator.pop(context);
                                       },
                                     ),
                                   ],
@@ -98,7 +76,6 @@ class _study_planState extends State<study_plan> {
                                     CircleAvatar(
                                       backgroundImage:cubit.profileImage!=null? NetworkImage(cubit.profileImage):NetworkImage(noImageAsset),
                                     ),
-
                                   ],
                                 ),
                               ],
@@ -110,15 +87,40 @@ class _study_planState extends State<study_plan> {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 20),
+                            Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                "Classe : ${context.watch<SchoolCubit>().deliberationModel?.classe}",
+                                style: boldTextStyle(
+                                    fontFamily: fontFamilyBoldGlobal),
+                              ).paddingOnly(bottom: 2),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                "Semestre : ${context.watch<SchoolCubit>().deliberationModel?.semester}",
+                                style: secondaryTextStyle(
+                                    color: logosColors,
+                                    fontFamily: fontFamilyBoldGlobal),
+                              ).paddingOnly(bottom: 16),
+                            ),
                             SizedBox(height: 10),
                             Container(
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                   left: 16, bottom: 16, right: 16),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: shadowColor,
+                                    offset: Offset(5, 5),
+                                    blurRadius: 10.0,
+                                  ),
+                                ],
+                              ),
                               padding: EdgeInsets.all(16),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +132,7 @@ class _study_planState extends State<study_plan> {
                                           shape: BoxShape.circle,
                                           gradient: LinearGradient(
                                             colors: [
-                                              Colors.white,
+                                              gradGreen,
                                               logosColors,
                                             ],
                                           ),
@@ -151,21 +153,21 @@ class _study_planState extends State<study_plan> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            "Plan d'étude",
+                                            "Délibération des notes",
                                             style: TextStyle(
                                               color: appStore.textPrimaryColor,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 14,
+                                              fontSize: width * 0.04,
                                             ),
                                           ),
                                           SizedBox(
                                             height: height * 0.01,
                                           ),
                                           Text(
-                                            "Vous trouverez ci-joint le plan d'étude",
+                                            "Vous trouverez ci-joint le fichier de délibération ",
                                             style: TextStyle(
                                               color: appStore.textPrimaryColor,
-                                              fontSize: 12,
+                                              fontSize: width * 0.03,
                                             ),
                                           ),
                                         ],
@@ -176,7 +178,7 @@ class _study_planState extends State<study_plan> {
                                   T8Button(
                                       textContent: 'Télécharger'.toUpperCase(),
                                       onPressed: () {
-                                        cubit.downloadPlan();
+                                        cubit.downloadDeliberation();
                                       }),
                                   // Text(
                                   //   '$progress',
@@ -188,7 +190,7 @@ class _study_planState extends State<study_plan> {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

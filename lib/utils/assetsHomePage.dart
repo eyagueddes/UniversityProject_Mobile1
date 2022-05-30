@@ -49,7 +49,7 @@ class Assets {
     },
     {
       'title': "Actualités",
-      'image': 'assets/icons/edit.svg',
+      'image': 'assets/icons/notification.svg',
     },
     // {
     //   'title': "Documents",

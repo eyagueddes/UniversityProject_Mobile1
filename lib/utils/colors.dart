@@ -59,6 +59,7 @@ const t5ShadowColor = Color(0X95E9EBF0);
 const t5DarkRed = Color(0XFFF06263);
 const t5ColorPrimaryLight = Color(0X505104D7);
 const t7colorPrimary = Color(0xFF2F95A1);
+const gradGreen=Color.fromRGBO(175, 189, 175, 0.5450980392156862);
 
 
 Map<int, Color> color= {

@@ -49,7 +49,7 @@ class _add_messageState extends State<add_message> {
         }, builder: (context, state) {
           var cubit = SchoolCubit.get(context);
           return Scaffold(
-            backgroundColor: GWhite,
+            backgroundColor: context.scaffoldBackgroundColor,
             body: Column(
               children: <Widget>[
                 //header
@@ -75,7 +75,7 @@ class _add_messageState extends State<add_message> {
                                   icon:const Icon(Icons.keyboard_arrow_left,
                                       size: 40, color: t5White),
                                   onPressed: () {
-                                    finish(context);
+                                    Navigator.pop(context);
                                   },
                                 ),
                               ],
@@ -110,13 +110,13 @@ class _add_messageState extends State<add_message> {
                                     0.0315),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              // child: Text(
-                              //   'Ajouter une Demande',
-                              //   style: GoogleFonts.quicksand(
-                              //       fontSize: 20,
-                              //       fontWeight: FontWeight.w700,
-                              //       color: logosColors),
-                              // ),
+                              child: Text(
+                                'Ajouter Un Message',
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w700,
+                                    color: logosColors),
+                              ),
                             ),
                             SizedBox(height: 20),
                             Padding(
@@ -135,7 +135,7 @@ class _add_messageState extends State<add_message> {
                                         'Sujet: ',
                                         style: GoogleFonts.inter(
                                             color: black,
-                                            fontSize: 15,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       SizedBox(height: 10),
@@ -145,16 +145,21 @@ class _add_messageState extends State<add_message> {
                                                   .size
                                                   .width *
                                               0.85,
-                                          child: DefaultFormField(
-                                            controller: subjectController,
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Veuillez saisir ce champ';
-                                              }
-                                            },
-                                            label: "",
-                                            keyboardType: TextInputType.text,
+                                          child: Material(
+                                            borderRadius: BorderRadius.circular(25.0),
+                                            elevation: 5,
+                                            shadowColor: Colors.grey[100],
+                                            child: DefaultFormField(
+                                              controller: subjectController,
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Veuillez saisir ce champ';
+                                                }
+                                              },
+                                              label: "",
+                                              keyboardType: TextInputType.text,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -163,7 +168,7 @@ class _add_messageState extends State<add_message> {
                                         'Description: ',
                                         style: GoogleFonts.inter(
                                             color: black,
-                                            fontSize: 15,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       SizedBox(height: 10),
@@ -173,17 +178,22 @@ class _add_messageState extends State<add_message> {
                                                   .size
                                                   .width *
                                               0.85,
-                                          child: DefaultFormField(
-                                            controller: textController,
-                                            maxLine: 6,
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Veuillez saisir ce champ';
-                                              }
-                                            },
-                                            label: "",
-                                            keyboardType: TextInputType.multiline,
+                                          child: Material(
+                                            borderRadius: BorderRadius.circular(25.0),
+                                            elevation: 5,
+                                            shadowColor: Colors.grey[100],
+                                            child: DefaultFormField(
+                                              controller: textController,
+                                              maxLine: 6,
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Veuillez saisir ce champ';
+                                                }
+                                              },
+                                              label: "",
+                                              keyboardType: TextInputType.multiline,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -192,7 +202,7 @@ class _add_messageState extends State<add_message> {
                                         'Numéro de télephone: ',
                                         style: GoogleFonts.inter(
                                             color: black,
-                                            fontSize: 15,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       SizedBox(height: 10),
@@ -202,16 +212,21 @@ class _add_messageState extends State<add_message> {
                                                   .size
                                                   .width *
                                               0.85,
-                                          child: DefaultFormField(
-                                            controller: phoneController,
-                                            validation: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Veuillez saisir ce champ';
-                                              }
-                                            },
-                                            label: "",
-                                            keyboardType: TextInputType.number,
+                                          child: Material(
+                                            borderRadius: BorderRadius.circular(25.0),
+                                            elevation: 5,
+                                            shadowColor: Colors.grey[100],
+                                            child: DefaultFormField(
+                                              controller: phoneController,
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Veuillez saisir ce champ';
+                                                }
+                                              },
+                                              label: "",
+                                              keyboardType: TextInputType.number,
+                                            ),
                                           ),
                                         ),
                                       ),

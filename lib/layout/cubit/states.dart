@@ -203,3 +203,6 @@ class NoticesLoadingDataError extends SchoolStates {
   late String error ;
   NoticesLoadingDataError(this.error);
 }
+class SchoolUploadProfileImageCloudinaryLoadingState extends SchoolStates {}
+class SchoolUploadProfileImageCloudinarySuccessState  extends SchoolStates {}
+class SchoolUploadProfileImageCloudinaryErrorState  extends SchoolStates {}

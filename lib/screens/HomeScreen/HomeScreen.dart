@@ -10,8 +10,7 @@ import 'package:university_project_mobile/utils/assetsHomePage.dart';
 import '../../components/search_bar.dart';
 import '../../helper/Navigation.dart';
 import '../../helper/cache_helper.dart';
-import '../Login/login.dart';
-
+import '../Login/Login.dart';
 
 class home_screen extends StatelessWidget {
   const home_screen({Key? key}) : super(key: key);
@@ -44,14 +43,20 @@ class home_screen extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           CircleAvatar(
-                                            backgroundImage:cubit.profileImage!=null? NetworkImage(cubit.profileImage):NetworkImage(noImageAsset),
+                                            backgroundImage: cubit
+                                                        .profileImage !=
+                                                    null
+                                                ? NetworkImage(
+                                                    cubit.profileImage)
+                                                : const NetworkImage(noImageAsset),
                                           ),
                                           const SizedBox(
                                             width: 10,
@@ -63,7 +68,7 @@ class home_screen extends StatelessWidget {
                                                     .capitalizeFirstLetter(),
                                                 style: boldTextStyle(
                                                     fontFamily:
-                                                    fontFamilyBoldGlobal,
+                                                        fontFamilyBoldGlobal,
                                                     color: white),
                                               ).paddingOnly(bottom: 2),
                                             ],
@@ -71,32 +76,29 @@ class home_screen extends StatelessWidget {
                                         ],
                                       ),
                                       Container(
-                                        width:45,
-                                        height: 35,
-                                          child:TextButton(
-                                              onPressed: (){
-                                                CacheHelper.removeData(
-                                                  key: 'token',
-                                                ).then((value)
-                                                {
-                                                  print('logout');
-                                                  if (value)
-                                                  {
-                                                    navigateAndFinish(
-                                                      context,
-                                                      LoginScreen(),
-                                                    );
-                                                  }
-                                                });
-                                              },
-                                                child: SvgPicture.asset(
+                                          width: 45,
+                                          height: 35,
+                                          child: TextButton(
+                                            onPressed: () {
+                                              CacheHelper.removeData(
+                                                key: 'token',
+                                              ).then((value) {
+                                                print('logout');
+                                                if (value) {
+                                                  navigateAndFinish(
+                                                    context,
+                                                    const LoginScreen(),
+                                                  );
+                                                }
+                                              });
+                                            },
+                                            child: SvgPicture.asset(
                                               logoutAsset,
                                               height: 25,
                                               fit: BoxFit.scaleDown,
                                               color: Colors.white,
                                             ),
-                                          )
-                                      ),
+                                          )),
                                       //search_bar(),
                                     ],
                                   ),
@@ -132,15 +134,15 @@ class home_screen extends StatelessWidget {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        SvgPicture.asset(
-                                                          assetEdit,
-                                                          color: logosColors,
+                                                        Image.asset(
+                                                          assetActualitiesPng,
+                                                          // color: logosColors,
                                                           width:
-                                                              size.width * 0.05,
+                                                              size.width * 0.07,
                                                         ),
                                                         const Text('Actualités',
                                                             style: TextStyle(
-                                                                fontSize: 16,
+                                                                fontSize: 19,
                                                                 fontFamily:
                                                                     'Roboto',
                                                                 fontWeight:
@@ -148,13 +150,17 @@ class home_screen extends StatelessWidget {
                                                                         .bold)),
                                                       ],
                                                     ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
                                                     const Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(
-                                                              horizontal: 20),
+                                                              horizontal: 50),
                                                       child: Text(
                                                           'Lorem ipsum dolor sit amet, consectetur \n adipiscing  '
                                                           'dolor sit amet,em ipsum \n dolor sit amet, co olor sit amet, co\n sit amet, co olor',
+                                                          maxLines: 4,
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
@@ -183,10 +189,10 @@ class home_screen extends StatelessWidget {
                     ),
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.only(left: 20.0, right: 20),
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: GridView.builder(
                             scrollDirection: Axis.vertical,
-                            physics: ScrollPhysics(),
+                            physics: const ScrollPhysics(),
                             itemCount: Assets.Cards.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -201,8 +207,8 @@ class home_screen extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            cubit.Homescreens[cubit.currentIndex],
+                                        builder: (context) => cubit
+                                            .Homescreens[cubit.currentIndex],
                                       ));
                                   cubit.changeCardIndex(index);
                                 },
