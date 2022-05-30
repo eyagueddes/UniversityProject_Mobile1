@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 class CurvedNavigationBar extends StatefulWidget {
@@ -20,7 +21,7 @@ class CurvedNavigationBar extends StatefulWidget {
         this.backgroundColor = Colors.blueAccent,
         this.onTap,
         this.animationCurve = Curves.easeOut,
-        this.animationDuration = const Duration(milliseconds: 600)})
+        this.animationDuration = const Duration(milliseconds: 400)})
       : assert(items.length >= 2),
         assert(0 <= initialIndex && initialIndex < items.length),
         super(key: key);
@@ -62,7 +63,7 @@ class _CurvedNavigationBarState extends State<CurvedNavigationBar> with SingleTi
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      color: widget.backgroundColor,
+      color: logosColors,
       height: 75.0,
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -78,12 +79,12 @@ class _CurvedNavigationBarState extends State<CurvedNavigationBar> with SingleTi
                   -(1 - _buttonHide) * 80,
                 ),
                 child: Material(
-                  color: widget.buttonBackgroundColor ?? widget.color,
+                  color:  white,
                   type: MaterialType.circle,
                   shadowColor: shadowColor,
                   elevation: 4,
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(9.0),
                     child: _icon,
                   ),
                 ),

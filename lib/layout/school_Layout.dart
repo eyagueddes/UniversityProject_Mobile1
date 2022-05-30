@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nb_utils/nb_utils.dart';
 import '../components/curvedNavigationBar.dart';
 import '../layout/cubit/cubit.dart';
 import '../utils/colors.dart';
@@ -36,10 +37,10 @@ class _school_LayoutState extends State<school_Layout> {
                     items: <Widget>[
                       SvgPicture.asset(
                         assetHome,
-                        height: 24,
-                        width: 24,
-                        fit: BoxFit.none,
-                        color: logosColors,
+                        height: 28,
+                        width: 28,
+                        fit: BoxFit.scaleDown,
+                        color: logosColors ,
                       ),
                       SvgPicture.asset(assetUser,
                           height: 24,
@@ -47,9 +48,9 @@ class _school_LayoutState extends State<school_Layout> {
                           fit: BoxFit.none,
                           color: logosColors),
                       SvgPicture.asset(assetEdit,
-                          height: 24,
-                          width: 24,
-                          fit: BoxFit.none,
+                          height: 28,
+                          width: 28,
+                          fit: BoxFit.scaleDown,
                           color: logosColors),
                     ],
                     onTap: (index) {

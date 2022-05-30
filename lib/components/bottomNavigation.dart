@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:university_project_mobile/utils/colors.dart';
 import 'package:university_project_mobile/utils/images.dart';
 import 'curvedNavigationBar.dart';
@@ -28,7 +29,6 @@ class bottom_navigationState extends State<bottom_navigation> {
         color:Colors.white,
         child: CurvedNavigationBar(
           backgroundColor: logosColors,
-
           items: <Widget>[
             SvgPicture.asset(assetHome, height: 24, width: 24, fit: BoxFit.none, color: logosColors),
             SvgPicture.asset(assetUser, height: 24, width: 24, fit: BoxFit.none, color: logosColors),
