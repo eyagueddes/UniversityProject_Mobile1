@@ -43,7 +43,7 @@ class details_actuality extends StatelessWidget {
                     leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: !innerBoxIsScrolled ? logosColors : Colors.black),
                         onPressed: () {
-                          finish(context);
+                         Navigator.pop(context);
                         }),
                     flexibleSpace: FlexibleSpaceBar(
                         background: CachedNetworkImage(

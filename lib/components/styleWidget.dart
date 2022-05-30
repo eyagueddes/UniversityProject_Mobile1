@@ -122,7 +122,7 @@ class TopBarState extends State<TopBar> {
             IconButton(
               icon: Icon(Icons.menu, color: Color(0xFF212121)),
               onPressed: () {
-                finish(context);
+                Navigator.pop(context);
               },
             ),
             Padding(

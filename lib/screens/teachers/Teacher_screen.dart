@@ -72,7 +72,7 @@ class _teacher_screenState extends State<teacher_screen> {
                                               Icons.keyboard_arrow_left,
                                               size: 40, color: t5White),
                                           onPressed: () {
-                                            finish(context);
+                                            Navigator.pop(context);
                                           },
                                         ),
                                       ],

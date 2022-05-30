@@ -47,8 +47,9 @@ class _profile_screenState extends State<profile_screen> {
     // String transformedUrl = cloudinaryImage.toString();
   //  DateTime dt=  DateTime.parse("${context.watch<SchoolCubit>().studentData?.dateBirth}");
   return state is SchoolLoadingUserDataState ? Center(child: CircularProgressIndicator()) : Scaffold(
-     // backgroundColor: t5LayoutBackgroundWhite,
+      backgroundColor: Colors.white,
       body: SafeArea(
+
         child: Stack(
           children: <Widget>[
             Container(
@@ -117,7 +118,7 @@ class _profile_screenState extends State<profile_screen> {
                     padding: EdgeInsets.only(top: 60),
                     alignment: Alignment.topCenter,
                     decoration: const BoxDecoration(
-                        color: t5LayoutBackgroundWhite,
+                        color:   white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(24),
                             topRight: Radius.circular(24))),
@@ -260,13 +261,13 @@ class _profile_screenState extends State<profile_screen> {
                                   padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
                                   child: view(),
                                 ),
-                                SizedBox(height: 16),
+
 
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 8),
+
                         Container(
                           margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
                           // decoration: boxDecoration(
