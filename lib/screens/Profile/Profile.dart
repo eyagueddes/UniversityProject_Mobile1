@@ -192,7 +192,7 @@ class _profile_screenState extends State<profile_screen> {
                                 Row(
                                   children: [
                                     profileText('Date de naissance :', maxline: 2),
-                                  if(SchoolCubit().studentData?.dateBirth !=null.toString())
+                                  if(SchoolCubit().studentData?.dateBirth !=null)
                                       text(dateFormat.format(DateTime.parse("${context.read<SchoolCubit>().studentData?.dateBirth}")), fontSize: TtextSize),
                                   ],
                                 ),
@@ -205,7 +205,7 @@ class _profile_screenState extends State<profile_screen> {
                                   children: [
 
                                     profileText('Numéro de Télephone :',maxline: 2),
-                                    if(SchoolCubit().studentData?.phone !=null.toString())
+                                    if(SchoolCubit().studentData?.phone !='null')
                                     text("${context.watch<SchoolCubit>().studentData?.phone}", fontSize: TtextSize),
                                   ],
                                 ),

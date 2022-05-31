@@ -91,20 +91,40 @@ class _result_DeliberationState extends State<result_Deliberation> {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                "Classe : ${context.watch<SchoolCubit>().deliberationModel?.classe}",
-                                style: boldTextStyle(
-                                    fontFamily: fontFamilyBoldGlobal),
-                              ).paddingOnly(bottom: 2),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Classe : ",
+                                    style: boldTextStyle(
+                                        fontFamily: fontFamilyBoldGlobal),
+                                  ).paddingOnly(bottom: 2),
+                                  Text(
+                                    "${context.watch<SchoolCubit>().studentData?.classe}",
+                                    style: boldTextStyle(
+                                        fontFamily: fontFamilyBoldGlobal),
+                                  ).paddingOnly(bottom: 2),
+                                ],
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                "Semestre : ${context.watch<SchoolCubit>().deliberationModel?.semester}",
-                                style: secondaryTextStyle(
-                                    color: logosColors,
-                                    fontFamily: fontFamilyBoldGlobal),
-                              ).paddingOnly(bottom: 16),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Semestre : ",
+                                    style: secondaryTextStyle(
+                                        color: logosColors,
+                                        fontFamily: fontFamilyBoldGlobal),
+                                  ).paddingOnly(bottom: 16),
+                                 "${context.watch<SchoolCubit>().deliberationModel?.semester}" !=null ?
+                                  Text(
+                                   " ${context.watch<SchoolCubit>().deliberationModel?.semester}" ,
+                                    style: secondaryTextStyle(
+                                        color: logosColors,
+                                        fontFamily: fontFamilyBoldGlobal),
+                                  ).paddingOnly(bottom: 16) : Text(""),
+                                ],
+                              ),
                             ),
                             SizedBox(height: 10),
                             Container(

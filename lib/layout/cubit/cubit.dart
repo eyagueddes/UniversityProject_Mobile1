@@ -140,6 +140,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
   var name;
   var LastName;
   var studentId;
+  var studentAvatar;
 
   Future <void> addDemand(
       { required String subject, required String phone, String? langue,String? raison}) async {
@@ -153,16 +154,21 @@ class SchoolCubit extends Cubit<SchoolStates> {
       name = studentData?.name;
       LastName = studentData?.LastName;
       studentId = studentData?.id;
+      studentAvatar = studentData?.avatar;
+      print(studentAvatar);
       print('name ,$name');
       print('LastName ,$LastName');
+
       Response response = await DioHelper.postData(
         url: 'api/demand/add', data: {
         'subject': subject,
         'phone': phone,
         'langue': langue,
         'studentName': name + ' ' + LastName,
+        'studentAvatar':studentAvatar,
         'StudentId': studentId,
         'raison':raison,
+
       },
       );
       print(response.data);
@@ -265,6 +271,7 @@ class SchoolCubit extends Cubit<SchoolStates> {
       name = studentData?.name;
       LastName = studentData?.LastName;
       studentId = studentData?.id;
+      studentAvatar=studentData?.avatar;
       print('name ,$name');
       print('name ,$name');
       print('LastName ,$LastName');
@@ -274,7 +281,8 @@ class SchoolCubit extends Cubit<SchoolStates> {
         'text': text,
         'studentName': name + ' ' + LastName,
         'StudentId': studentId,
-        'phone': phone
+        'phone': phone,
+        'studentAvatar':studentAvatar
       },
       );
       print(response.data);

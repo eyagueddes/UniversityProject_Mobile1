@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:university_project_mobile/layout/cubit/states.dart';
 import 'package:university_project_mobile/screens/updateProfile/Update_profile.dart';
+import 'package:university_project_mobile/utils/images.dart';
 
 import '../../layout/cubit/cubit.dart';
 import '../../shared/components/components.dart';
@@ -40,10 +41,10 @@ class _UpdateProState extends State<UpdatePro> {
   void initState() {
     var cubit = SchoolCubit.get(context);
     emailController.text =cubit.studentData!.email!;
-    phoneController.text = cubit.studentData!.phone!;
-    adressController.text = cubit.studentData!.adress!;
-    countryController.text = cubit.studentData!.country!;
-    governmentController.text = cubit.studentData!.government!;
+  if(cubit.studentData!.phone != null)  phoneController.text = cubit.studentData!.phone!;
+    if(cubit.studentData!.adress != null)  adressController.text = cubit.studentData!.adress!;
+    if(cubit.studentData!.country != null) countryController.text = cubit.studentData!.country!;
+    if(cubit.studentData!.government != null)  governmentController.text = cubit.studentData!.government!;
     super.initState();
 
   }

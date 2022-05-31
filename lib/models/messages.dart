@@ -3,12 +3,14 @@ class MessageModel {
   String subject;
   String text;
   String date;
+  String? studentAvatar;
 
   MessageModel({
     required this.studentName,
     required this.subject,
     required this.text,
     required this.date,
+     this.studentAvatar,
   });
 
   Map<String, dynamic> toMap() {
@@ -17,6 +19,7 @@ class MessageModel {
       'subject': subject,
       'text': text,
       'date': date,
+      'studentAvatar':studentAvatar,
     };
   }
 
@@ -26,6 +29,8 @@ class MessageModel {
       subject: map['subject'] as String,
       text: map['text'] as String,
       date: map['date'] as String,
+      studentAvatar: map['studentAvatar'] as String,
+
     );
   }
 
